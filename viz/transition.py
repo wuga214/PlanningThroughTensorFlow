@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+from matplotlib.ticker import ScalarFormatter
 
 def getscales(X,Y):
     distances = np.sqrt(np.power(X-4,2)+np.power(Y-4,2))
@@ -8,7 +8,7 @@ def getscales(X,Y):
     return scalefactionor
 
 
-def virtualizing(data, action, label, pred, sample_size, save=False):
+def nav_viz(data, action, label, pred, sample_size, save=False):
     sample_index = np.random.choice(len(data), sample_size)
     fig9 = plt.figure(figsize=(12, 9), dpi=100)
     ax9 = fig9.add_subplot(111)
@@ -33,6 +33,25 @@ def virtualizing(data, action, label, pred, sample_size, save=False):
         plt.plot([data[i, 0], data[i, 0] + action[i, 0]], [data[i, 1], data[i, 1] + action[i, 1]], 'g:', lw=1.5)
         plt.plot([data[i, 0], pred[i, 0]], [data[i, 1], pred[i, 1]], 'b-.', lw=1.5)
 
+    if save:
+        plt.savefig('Comparison.png')
+    else:
+        plt.show()
+
+
+def res_viz(data, action, label, pred, sample_size, save=False):
+    _,dim = data.shape
+    fig, axes = plt.subplots(nrows=dim, ncols=1, figsize=(8, 4))
+    y_formatter = ScalarFormatter(useOffset=False)
+    for i in range(dim):
+        for j in range(sample_size):
+            axes[i].plot([j, j+1], [data[j, i], label[j, i]], 'r-', lw=1.5)
+            axes[i].plot([j, j+1], [data[j, i], pred[j, i]], 'b-.', lw=1.5)
+            axes[i].yaxis.set_major_formatter(y_formatter)
+            axes[i].locator_params(axis='y', nbins=5)
+        plt.xlabel('Time Step')
+        plt.ylabel('Water Level')
+    fig.subplots_adjust(hspace=0.4)
     if save:
         plt.savefig('Comparison.png')
     else:

@@ -115,7 +115,7 @@ class NetTopology(object):
     def net_transform(self, hiddenstart='N', writefile=False, path=None, domain=None, overwrite=False):
         filehandler = None
         if writefile:
-            fullpath = "{1}Network_RDDL_{1}.txt".format(path, domain)
+            fullpath = "{0}Network_RDDL_{1}.txt".format(path, domain)
             if overwrite is True:
                 filehandler = open(fullpath, 'w')
             else:

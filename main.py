@@ -3,8 +3,13 @@ import numpy as np
 from net.residual import DenselyConnectedNetwork
 from utils.argument import check_int_positive, check_float_positive
 from utils.io import read_data, dump_net_iohead, dump_norm_info, NetTopology
-from viz.nav import virtualizing
+from viz.transition import nav_viz, res_viz
 
+
+vizs = {
+    "Navigation": nav_viz,
+    "Reservoir": res_viz,
+}
 
 def main(args):
     pd_data = read_data(args.path+args.data)
@@ -44,20 +49,20 @@ def main(args):
     print "Complete testing"
     feed_data = test_data[:, args.split:]
     act_tran = test_data[:, :args.split]
-    virtualizing(feed_data, act_tran, test_label, pred_label, 100)
+    vizs[args.domain](feed_data, act_tran, test_label, pred_label, 100)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Transform Learner")
 
-    parser.add_argument('-p', dest='path',  default="/media/wuga/Data Repository1/JAIR-18/domains/nav/")
-    parser.add_argument('-x', dest='data', default='Navigation_Large_Data.txt')
-    parser.add_argument('-y', dest='label', default='Navigation_Large_Label.txt')
+    parser.add_argument('-p', dest='path',  default="/media/wuga/Data Repository1/JAIR-18/domains/res/reservoir3/")
+    parser.add_argument('-x', dest='data', default='Reservoir_Data.txt')
+    parser.add_argument('-y', dest='label', default='Reservoir_Label.txt')
     parser.add_argument('-n', dest='neuron', type=check_int_positive, default=32)
     parser.add_argument('-l', dest='layer', type=check_int_positive, default=2)
     parser.add_argument('-t', dest='type', default='regular')
-    parser.add_argument('-d', dest='domain', default='Navigation')
-    parser.add_argument('-s', dest='split', type=check_int_positive, default=2)
+    parser.add_argument('-d', dest='domain', default='Reservoir')
+    parser.add_argument('-s', dest='split', type=check_int_positive, default=3)
     parser.add_argument('--prefix', dest='head', default='D')
     args = parser.parse_args()
 
