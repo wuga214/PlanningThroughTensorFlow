@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c179dee-e4df-4501-954f-945f54769448" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NavigationNetwork_RDDL_Navigation.txt" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/viz/nav.py" afterPath="$PROJECT_DIR$/viz/transition.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train_curve.png" afterPath="$PROJECT_DIR$/train_curve.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/viz/history.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/train_curve.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/io.py" afterPath="$PROJECT_DIR$/utils/io.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/net/residual.py" afterPath="$PROJECT_DIR$/net/residual.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viz/transition.py" afterPath="$PROJECT_DIR$/viz/transition.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,8 +21,8 @@
       <file leaf-file-name="residual.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/net/residual.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1026">
-              <caret line="57" column="24" lean-forward="false" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
+            <state relative-caret-position="818">
+              <caret line="55" column="27" lean-forward="false" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -34,11 +33,21 @@
       <file leaf-file-name="transition.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viz/transition.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="746">
-              <caret line="53" column="35" lean-forward="true" selection-start-line="53" selection-start-column="35" selection-end-line="53" selection-end-column="35" />
+            <state relative-caret-position="62">
+              <caret line="32" column="39" lean-forward="false" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="history.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/viz/history.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="14" column="18" lean-forward="false" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -47,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/utils/io.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="674">
-              <caret line="120" column="17" lean-forward="true" selection-start-line="120" selection-start-column="17" selection-end-line="120" selection-end-column="17" />
+              <caret line="120" column="17" lean-forward="false" selection-start-line="120" selection-start-column="17" selection-end-line="120" selection-end-column="17" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -58,8 +67,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="692">
-              <caret line="61" column="79" lean-forward="true" selection-start-line="61" selection-start-column="79" selection-end-line="61" selection-end-column="79" />
+            <state relative-caret-position="728">
+              <caret line="66" column="58" lean-forward="false" selection-start-line="66" selection-start-column="58" selection-end-line="66" selection-end-column="58" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -112,11 +121,12 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/utils/preprocess.py" />
-        <option value="$PROJECT_DIR$/net/residual.py" />
         <option value="$PROJECT_DIR$/utils/argument.py" />
         <option value="$PROJECT_DIR$/viz/nav.py" />
-        <option value="$PROJECT_DIR$/viz/transition.py" />
         <option value="$PROJECT_DIR$/utils/io.py" />
+        <option value="$PROJECT_DIR$/viz/transition.py" />
+        <option value="$PROJECT_DIR$/net/residual.py" />
+        <option value="$PROJECT_DIR$/viz/history.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -155,6 +165,11 @@
             <path>
               <item name="JAIR-18" type="b2602c69:ProjectViewProjectNode" />
               <item name="JAIR-18" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JAIR-18" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JAIR-18" type="462c0819:PsiDirectoryNode" />
+              <item name="domains" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="JAIR-18" type="b2602c69:ProjectViewProjectNode" />
@@ -258,30 +273,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/net/residual.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1026">
-          <caret line="57" column="24" lean-forward="false" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/io.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="674">
-          <caret line="120" column="17" lean-forward="true" selection-start-line="120" selection-start-column="17" selection-end-line="120" selection-end-column="17" />
+          <caret line="120" column="17" lean-forward="false" selection-start-line="120" selection-start-column="17" selection-end-line="120" selection-end-column="17" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/net/residual.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="818">
+          <caret line="55" column="27" lean-forward="false" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viz/history.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="18" lean-forward="false" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/viz/transition.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="746">
-          <caret line="53" column="35" lean-forward="true" selection-start-line="53" selection-start-column="35" selection-end-line="53" selection-end-column="35" />
+        <state relative-caret-position="62">
+          <caret line="32" column="39" lean-forward="false" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -290,8 +313,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="692">
-          <caret line="61" column="79" lean-forward="true" selection-start-line="61" selection-start-column="79" selection-end-line="61" selection-end-column="79" />
+        <state relative-caret-position="728">
+          <caret line="66" column="58" lean-forward="false" selection-start-line="66" selection-start-column="58" selection-end-line="66" selection-end-column="58" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

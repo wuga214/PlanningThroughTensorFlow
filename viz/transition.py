@@ -40,7 +40,7 @@ def nav_viz(data, action, label, pred, sample_size, save=False):
 
 
 def res_viz(data, action, label, pred, sample_size, save=False):
-    _,dim = data.shape
+    _, dim = data.shape
     fig, axes = plt.subplots(nrows=dim, ncols=1, figsize=(8, 4))
     y_formatter = ScalarFormatter(useOffset=False)
     for i in range(dim):
@@ -51,6 +51,23 @@ def res_viz(data, action, label, pred, sample_size, save=False):
             axes[i].locator_params(axis='y', nbins=5)
         plt.xlabel('Time Step')
         plt.ylabel('Water Level')
+    fig.subplots_adjust(hspace=0.4)
+    if save:
+        plt.savefig('Comparison.png')
+    else:
+        plt.show()
+
+
+def hvac_viz(data, action, label, pred, sample_size, save=False):
+    _, dim=data.shape
+    fig, axes = plt.subplots(nrows=dim, ncols=1, figsize=(8, 6))
+    y_formatter = ScalarFormatter(useOffset=False)
+    for i in range(dim):
+        for j in range(sample_size):
+            axes[i].plot([j, j+1], [data[j, i], label[j, i]], 'r-', lw=1.5)
+            axes[i].plot([j, j+1], [data[j, i], pred[j, i]], 'b-.', lw=1.5)
+            axes[i].yaxis.set_major_formatter(y_formatter)
+            axes[i].locator_params(axis='y', nbins=5)
     fig.subplots_adjust(hspace=0.4)
     if save:
         plt.savefig('Comparison.png')

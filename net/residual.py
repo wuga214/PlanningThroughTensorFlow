@@ -54,13 +54,3 @@ class DenselyConnectedNetwork(object):
 
     def getmodel(self):
         return self.DeepNet
-
-    def showhistory(self):
-        # summarize history for loss
-        plt.plot(self.history.history['loss'])
-        plt.plot(self.history.history['val_loss'])
-        plt.title('model loss')
-        plt.ylabel('loss')
-        plt.xlabel('epoch')
-        plt.legend(['train', 'test'], loc='upper left')
-        plt.savefig('train_curve.png')
