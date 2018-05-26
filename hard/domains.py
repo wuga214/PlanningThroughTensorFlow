@@ -61,8 +61,8 @@ class RESERVOIR(object):
             tf.logical_and(tf.greater_equal(states, self.LOW_BOUND()), tf.less_equal(states, self.HIGH_BOUND())),
             self.zero,
             tf.where(tf.less(states, self.LOW_BOUND()),
-                      -5 * (self.LOW_BOUND() - states),
-                      -100 * (states - self.HIGH_BOUND()))
+                     -5 * (self.LOW_BOUND() - states),
+                     -100 * (states - self.HIGH_BOUND()))
             )
         new_rewards += tf.abs(((self.HIGH_BOUND() + self.LOW_BOUND()) / 2.0) - states) * (-0.1)
         return tf.reduce_sum(new_rewards, 1, keep_dims=True)

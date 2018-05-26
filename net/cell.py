@@ -25,15 +25,15 @@ class TrainedCell(tf.nn.rnn_cell.RNNCell):
         print(inputs.get_shape())
         with tf.variable_scope(scope):
             with tf.variable_scope("transition"):
-                init = merge([inputs,state], mode='concat')
+                init = merge([inputs, state], mode='concat')
                 x = Dense(self._num_hidden_units, activation='relu')(init)
                 x = Dropout(self._dropout)(x)
-                interm_inputs = merge([x,init], mode='concat')
+                interm_inputs = merge([x, init], mode='concat')
                 if self._num_hidden_layers > 1:
                     for i in range(self._num_hidden_layers-1):
                         x = Dense(self._num_hidden_units, activation='relu')(interm_inputs)
                         x = Dropout(self._dropout)(x)
-                        interm_inputs=merge([x, interm_inputs], mode='concat')
+                        interm_inputs = merge([x, interm_inputs], mode='concat')
 
                 next_state = Dense(self._num_state_units, activation='linear')(interm_inputs)
             with tf.variable_scope("Reward"):
