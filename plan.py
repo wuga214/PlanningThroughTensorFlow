@@ -4,14 +4,15 @@ import numpy as np
 from net.cell import TrainedCell
 from net.optimization import ActionOptimizer
 from hard.domains import HVAC
-from hard.specification import hvac_settings, hvac3_instance
+from hard.specification import hvac_settings
+from hard.instance import hvac6_instance
 from utils.argument import check_int_positive, check_float_positive
 from utils.io import load_pickle
 
 
 def main(args):
 
-    hvac = HVAC(args.batch, hvac3_instance, hvac_settings)
+    hvac = HVAC(args.batch, hvac6_instance, hvac_settings)
 
     pretrained_weights = load_pickle(args.weight, 'weight')
 
