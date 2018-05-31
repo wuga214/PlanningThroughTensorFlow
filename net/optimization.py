@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from tensorflow.python.ops import array_ops
+from net.cell import TrainedCell
 
 
 class ActionOptimizer(object):
@@ -8,6 +9,12 @@ class ActionOptimizer(object):
                  num_step,
                  num_act,
                  batch_size,
+                 domain_settings,
+                 num_state_units,
+                 num_reward_units,
+                 num_hidden_units,
+                 num_hidden_layers,
+                 dropout,
                  learning_rate=0.005):
         self.action = tf.Variable(tf.truncated_normal(shape=[batch_size, num_step, num_act],
                                                       mean=0.0, stddev=0.05), name="action")
@@ -15,24 +22,29 @@ class ActionOptimizer(object):
         self.batch_size = batch_size
         self.num_step = num_step
         self.learning_rate = learning_rate
-        self._p_create_rnn_graph()
+        cell = TrainedCell(num_state_units,
+                           num_reward_units,
+                           num_hidden_units,
+                           num_hidden_layers,
+                           dropout,
+                           domain_settings)
+        self._p_create_rnn_graph(cell)
         self._p_create_loss()
         self.sess = tf.InteractiveSession()
         self.sess.run(tf.global_variables_initializer())
 
-    def _p_create_rnn_graph(self, Cell, domain_settings):
-        cell = Cell(self.batch_size, domain_settings)
+    def _p_create_rnn_graph(self, cell):
         initial_state = cell.zero_state(self.batch_size, dtype=tf.float32)
         print('action batch size:{0}'.format(array_ops.shape(self.action)[0]))
         print('Initial_state shape:{0}'.format(initial_state))
         rnn_outputs, state = tf.nn.dynamic_rnn(cell, self.action, dtype=tf.float32, initial_state=initial_state)
         # need output intermediate states as well
-        concated = tf.concat(0, rnn_outputs)
+        concated = tf.concat(axis=0, values=rnn_outputs)
         print('concated shape:{0}'.format(concated.get_shape()))
-        something_unpacked = tf.unpack(concated, axis=2)
+        something_unpacked = tf.unstack(concated, axis=2)
         self.outputs = tf.reshape(something_unpacked[0], [-1, self.num_step, 1])
         print(' self.outputs:{0}'.format(self.outputs.get_shape()))
-        self.intern_states = tf.pack([something_unpacked[1], something_unpacked[2]], axis=2)
+        self.intern_states = tf.stack([something_unpacked[1], something_unpacked[2]], axis=2)
         self.last_state = state
         self.pred = tf.reduce_sum(self.outputs, 1)
         self.average_pred = tf.reduce_mean(self.pred)
@@ -43,7 +55,7 @@ class ActionOptimizer(object):
         objective = tf.reduce_mean(tf.square(self.pred))
         self.loss = objective
         print(self.loss.get_shape())
-        self.optimizer = tf.train.RMSPropOptimizer(self.learning_rate).minimize(self.loss, var_list=[a])
+        self.optimizer = tf.train.RMSPropOptimizer(self.learning_rate).minimize(self.loss, var_list=[self.action])
 
     def Optimize(self, clip_bounds, epoch=100, show_progress=False):
 

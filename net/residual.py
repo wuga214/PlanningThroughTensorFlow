@@ -4,6 +4,8 @@ from keras import backend as K
 from keras.layers import Dense, Dropout
 from keras.models import load_model
 from utils.preprocess import getnorm
+import tensorflow as tf
+import re
 import matplotlib.pyplot as plt
 
 
@@ -14,16 +16,17 @@ class DenselyConnectedNetwork(object):
         self.boost = boost
 
         inputs = Input(shape=(observ,))
-        x = Dense(hidden, activation='relu')(inputs)
-        x = Dropout(drop_out)(x)
-        interm_inputs = merge([x, inputs], mode='concat')
-        if num_layers > 1:
-            for i in range(num_layers - 1):
-                x = Dense(hidden, activation='relu')(interm_inputs)
-                x = Dropout(drop_out)(x)
-                interm_inputs = merge([x, interm_inputs], mode='concat')
-        predictions = Dense(output, activation='linear')(interm_inputs)
-        self.DeepNet = Model(input=inputs, output=predictions)
+        with tf.variable_scope("transition"):
+            x = Dense(hidden, activation='relu')(inputs)
+            x = Dropout(drop_out)(x)
+            interm_inputs = merge([x, inputs], mode='concat')
+            if num_layers > 1:
+                for i in range(num_layers - 1):
+                    x = Dense(hidden, activation='relu')(interm_inputs)
+                    x = Dropout(drop_out)(x)
+                    interm_inputs = merge([x, interm_inputs], mode='concat')
+            predictions = Dense(output, activation='linear')(interm_inputs)
+            self.DeepNet = Model(input=inputs, output=predictions)
         self.DeepNet.compile(optimizer='rmsprop', loss=self.boosted_mean_squared_error)
 
     def boosted_mean_squared_error(self, y_true, y_pred):
@@ -50,7 +53,20 @@ class DenselyConnectedNetwork(object):
         self.DeepNet = load_model(modelpath)
 
     def save(self, modelpath):
-        self.DeepNet.save(modelpath)
+        sess = K.get_session()
+        variables = tf.trainable_variables()
+        var_dict = {}
+        #import ipdb; ipdb.set_trace()
+        for v in variables:
+            if "transition" in v.name:
+                var_dict["name"] = v
+        for k in var_dict.keys():
+            print(k)
+        saver = tf.train.Saver(var_dict)
+        saver.save(sess, modelpath)
+
+        # Keras save function
+        # self.DeepNet.save(modelpath)
 
     def getmodel(self):
         return self.DeepNet

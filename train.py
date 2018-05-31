@@ -35,7 +35,7 @@ def main(args):
     mse_weights = (1.0 / np.square(np.max(train_label, axis=0) + 1)) * 10
 
     dnn = DenselyConnectedNetwork(n_data, args.neuron, n_label, args.layer, 0.1, mse_weights)
-    mean_DNN, std_DNN = dnn.train(train_data, train_label, 200, True)
+    mean_DNN, std_DNN = dnn.train(train_data, train_label, 2, True)
     showhistory(dnn.history)
 
     # Dump the I/O info of the network
@@ -47,6 +47,9 @@ def main(args):
     topo = NetTopology(dnn.getmodel().layers, mean_DNN, std_DNN, args.type)
 
     topo.net_transform('D', True, args.path, args.domain, True)
+
+    # Save Weights
+    dnn.save(args.weight+'weight')
 
     pred_label = dnn.test(test_data, True, mean_DNN, std_DNN)
     print "Complete testing"
@@ -61,6 +64,7 @@ if __name__ == "__main__":
     parser.add_argument('-p', dest='path',  default="/media/wuga/Data Repository1/JAIR-18/domains/hvac/hvac3/")
     parser.add_argument('-x', dest='data', default='HVAC_VAV_Data.txt')
     parser.add_argument('-y', dest='label', default='HVAC_VAV_Label.txt')
+    parser.add_argument('-w', dest='weight', default="/media/wuga/Data Repository1/JAIR-18/weights/hvac/hvac3/")
     parser.add_argument('-n', dest='neuron', type=check_int_positive, default=32)
     parser.add_argument('-l', dest='layer', type=check_int_positive, default=2)
     parser.add_argument('-t', dest='type', default='regular')

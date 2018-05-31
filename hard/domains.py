@@ -101,20 +101,17 @@ class NAVI(object):
 # Matrix computation version update
 class HVAC(object):
     def __init__(self,
-                 adj_outside,  # Adjacent to outside
-                 adj_hall,  # Adjacent to hall
-                 adj,  # Adjacent between rooms
-                 rooms,  # Room names
                  batch_size,
+                 instance_settings,
                  default_settings):
         self.__dict__.update(default_settings)
-        self.rooms = rooms
+        self.rooms = instance_settings['rooms']
         self.batch_size = batch_size
-        self.room_size = len(rooms)
+        self.room_size = len(self.rooms)
         self.zero = tf.constant(0, shape=[self.batch_size, self.room_size], dtype=tf.float32)
-        self._init_ADJ_Matrix(adj)
-        self._init_ADJOUT_MATRIX(adj_outside)
-        self._init_ADJHALL_MATRIX(adj_hall)
+        self._init_ADJ_Matrix(instance_settings['adj'])
+        self._init_ADJOUT_MATRIX(instance_settings['adj_outside'])
+        self._init_ADJHALL_MATRIX(instance_settings['adj_hall'])
 
     def _init_ADJ_Matrix(self, adj):
         np_adj = np.zeros((self.room_size, self.room_size))
@@ -195,10 +192,12 @@ class HVAC(object):
         return self.zero
 
     def Reward(self, states, actions):
-        batch_size, state_size = states.get_shape()
-        # break_penalty = tf.select(tf.logical_or(tf.less(states,self.TEMP_LOW()),\
-        #                                        tf.greater(states,self.TEMP_UP())),self.PENALTY()+self.ZERO(),self.ZERO())
+        break_penalty = tf.where(tf.logical_or(tf.less(states, self.TEMP_LOW()),
+                                               tf.greater(states, self.TEMP_UP())),
+                                 self.PENALTY()+self.ZERO(), self.ZERO())
         dist_penalty = tf.abs(((self.TEMP_UP() + self.TEMP_LOW()) / tf.constant(2.0, dtype=tf.float32)) - states)
         ener_penalty = actions * self.COST_AIR()
-        new_rewards = -tf.reduce_sum(tf.constant(10.0, tf.float32) * dist_penalty + ener_penalty, 1, keep_dims=True)
+        new_rewards = -tf.reduce_sum(tf.constant(10.0, tf.float32) * dist_penalty + ener_penalty + break_penalty,
+                                     axis=1,
+                                     keep_dims=True)
         return new_rewards
