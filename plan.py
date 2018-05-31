@@ -6,11 +6,14 @@ from net.optimization import ActionOptimizer
 from hard.domains import HVAC
 from hard.specification import hvac_settings, hvac3_instance
 from utils.argument import check_int_positive, check_float_positive
+from utils.io import load_pickle
 
 
 def main(args):
 
     hvac = HVAC(args.batch, hvac3_instance, hvac_settings)
+
+    pretrained_weights = load_pickle(args.weight, 'weight')
 
     optimizer = ActionOptimizer(num_step=args.horizon,
                                 num_act=args.action,
@@ -20,7 +23,8 @@ def main(args):
                                 num_reward_units=7,
                                 num_hidden_units=args.neuron,
                                 num_hidden_layers=args.layer,
-                                dropout=0.1
+                                dropout=0.1,
+                                pretrained=pretrained_weights,
                                 )
 
 
@@ -30,7 +34,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Tensorflow Planner")
 
-    parser.add_argument('-w', dest='weight', default="/media/wuga/Data Repository1/JAIR-18/weights/hvac/hvac3/")
+    parser.add_argument('-w', dest='weight', default="weights/hvac/hvac6")
     parser.add_argument('-n', dest='neuron', type=check_int_positive, default=32)
     parser.add_argument('-l', dest='layer', type=check_int_positive, default=2)
     parser.add_argument('-d', dest='domain', default='HVAC')

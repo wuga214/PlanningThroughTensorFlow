@@ -20,8 +20,8 @@ def main(args):
     data = pd_data.as_matrix()
     label = pd_label.as_matrix()
     indecs = np.random.permutation(data.shape[0])
-    data = data[indecs]
-    label = label[indecs]
+    data = data[indecs, :args.split*2] #Test case!!!!! for HVAC ONLY
+    label = label[indecs, :args.split] #Test case!!!!! for HVAC ONLY
     m_data, n_data = data.shape
     m_label, n_label = label.shape
 
@@ -38,18 +38,18 @@ def main(args):
     mean_DNN, std_DNN = dnn.train(train_data, train_label, 2, True)
     showhistory(dnn.history)
 
-    # Dump the I/O info of the network
-    dump_net_iohead(pd_data, pd_label, n_data, n_label, args.head, args.layer+1, args.domain, args.type, args.path)
-
-    # Dump normalizing info
-    dump_norm_info(pd_data, mean_DNN, std_DNN, args.domain, args.path)
-
-    topo = NetTopology(dnn.getmodel().layers, mean_DNN, std_DNN, args.type)
-
-    topo.net_transform('D', True, args.path, args.domain, True)
+    # # Dump the I/O info of the network
+    # dump_net_iohead(pd_data, pd_label, n_data, n_label, args.head, args.layer+1, args.domain, args.type, args.path)
+    #
+    # # Dump normalizing info
+    # dump_norm_info(pd_data, mean_DNN, std_DNN, args.domain, args.path)
+    #
+    # topo = NetTopology(dnn.getmodel().layers, mean_DNN, std_DNN, args.type)
+    #
+    # topo.net_transform('D', True, args.path, args.domain, True)
 
     # Save Weights
-    dnn.save(args.weight+'weight')
+    dnn.save(args.weight, 'weight')
 
     pred_label = dnn.test(test_data, True, mean_DNN, std_DNN)
     print "Complete testing"
@@ -61,15 +61,15 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Transform Learner")
 
-    parser.add_argument('-p', dest='path',  default="/media/wuga/Data Repository1/JAIR-18/domains/hvac/hvac3/")
+    parser.add_argument('-p', dest='path',  default="domains/hvac/hvac6/")
     parser.add_argument('-x', dest='data', default='HVAC_VAV_Data.txt')
     parser.add_argument('-y', dest='label', default='HVAC_VAV_Label.txt')
-    parser.add_argument('-w', dest='weight', default="/media/wuga/Data Repository1/JAIR-18/weights/hvac/hvac3/")
+    parser.add_argument('-w', dest='weight', default="weights/hvac/hvac6")
     parser.add_argument('-n', dest='neuron', type=check_int_positive, default=32)
     parser.add_argument('-l', dest='layer', type=check_int_positive, default=2)
     parser.add_argument('-t', dest='type', default='regular')
     parser.add_argument('-d', dest='domain', default='HVAC')
-    parser.add_argument('-s', dest='split', type=check_int_positive, default=3)
+    parser.add_argument('-s', dest='split', type=check_int_positive, default=6)
     parser.add_argument('--prefix', dest='head', default='D')
     args = parser.parse_args()
 

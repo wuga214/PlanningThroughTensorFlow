@@ -65,7 +65,7 @@ class RESERVOIR(object):
                      -100 * (states - self.HIGH_BOUND()))
             )
         new_rewards += tf.abs(((self.HIGH_BOUND() + self.LOW_BOUND()) / 2.0) - states) * (-0.1)
-        return tf.reduce_sum(new_rewards, 1, keep_dims=True)
+        return tf.reduce_sum(new_rewards, 1, keepdims=True)
 
 
 class NAVI(object):
@@ -94,7 +94,7 @@ class NAVI(object):
         return self.centre
 
     def Reward(self, states):
-        new_reward = -tf.reduce_sum(tf.abs(states - self.GOAL()), 1, keep_dims=True)
+        new_reward = -tf.reduce_sum(tf.abs(states - self.GOAL()), 1, keepdims=True)
         return new_reward
 
 
@@ -199,5 +199,5 @@ class HVAC(object):
         ener_penalty = actions * self.COST_AIR()
         new_rewards = -tf.reduce_sum(tf.constant(10.0, tf.float32) * dist_penalty + ener_penalty + break_penalty,
                                      axis=1,
-                                     keep_dims=True)
+                                     keepdims=True)
         return new_rewards

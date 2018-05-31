@@ -6,6 +6,7 @@ from keras.models import load_model
 from utils.preprocess import getnorm
 import tensorflow as tf
 import re
+from utils.io import save_pickle
 import matplotlib.pyplot as plt
 
 
@@ -52,18 +53,26 @@ class DenselyConnectedNetwork(object):
     def loadmodel(self, modelpath):
         self.DeepNet = load_model(modelpath)
 
-    def save(self, modelpath):
+    def save(self, weights_path, weights_name):
         sess = K.get_session()
         variables = tf.trainable_variables()
-        var_dict = {}
-        #import ipdb; ipdb.set_trace()
+        var_dict = dict()
         for v in variables:
             if "transition" in v.name:
-                var_dict["name"] = v
+                name = re.sub('transition/', '', v.name)
+                name = re.sub(':0', '', name)
+                layer_name, var_name = name.split('/')
+                layer_name = re.sub('dense_', '', layer_name)
+                if not var_dict.get(layer_name):
+                    var_dict[layer_name] = dict()
+                var_dict[layer_name][var_name] = v
         for k in var_dict.keys():
             print(k)
-        saver = tf.train.Saver(var_dict)
-        saver.save(sess, modelpath)
+            for j in var_dict[k].keys():
+                print('---{0}'.format(j))
+
+        weights = sess.run(var_dict)
+        save_pickle(weights, weights_path, weights_name)
 
         # Keras save function
         # self.DeepNet.save(modelpath)

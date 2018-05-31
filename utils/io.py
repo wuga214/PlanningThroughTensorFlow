@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from keras.layers import Dense
+import pickle
 
 
 def path_finder(path):
@@ -129,3 +130,13 @@ class NetTopology(object):
                     self.layerwise_transform(self.layers[i], counter + 1, hiddenstart, writefile, filehandler, False)
                 counter = counter + 1
         print 'Network Dumping Done!'
+
+
+def save_pickle(dictionary, path, name):
+    with open('{0}/{1}.pickle'.format(path, name), 'wb') as handle:
+        pickle.dump(dictionary, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+def load_pickle(path, name):
+    with open('{0}/{1}.pickle'.format(path, name), 'rb') as handle:
+        return pickle.load(handle)

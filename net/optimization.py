@@ -15,6 +15,7 @@ class ActionOptimizer(object):
                  num_hidden_units,
                  num_hidden_layers,
                  dropout,
+                 pretrained,
                  learning_rate=0.005):
         self.action = tf.Variable(tf.truncated_normal(shape=[batch_size, num_step, num_act],
                                                       mean=0.0, stddev=0.05), name="action")
@@ -22,16 +23,19 @@ class ActionOptimizer(object):
         self.batch_size = batch_size
         self.num_step = num_step
         self.learning_rate = learning_rate
+        self.sess = tf.Session()
         cell = TrainedCell(num_state_units,
                            num_reward_units,
                            num_hidden_units,
                            num_hidden_layers,
                            dropout,
-                           domain_settings)
+                           domain_settings,
+                           pretrained)
         self._p_create_rnn_graph(cell)
         self._p_create_loss()
-        self.sess = tf.InteractiveSession()
         self.sess.run(tf.global_variables_initializer())
+        import ipdb;
+        ipdb.set_trace()
 
     def _p_create_rnn_graph(self, cell):
         initial_state = cell.zero_state(self.batch_size, dtype=tf.float32)
