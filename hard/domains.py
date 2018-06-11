@@ -5,18 +5,18 @@ import numpy as np
 class RESERVOIR(object):
     def __init__(self,
                  batch_size,
-                 default_settings):
+                 instance_settings):
         self.batch_size = batch_size
-        self.reservoirs = default_settings['reservoirs']
-        self.reservoir_num = len(default_settings['reservoirs'])
-        self.biggestmaxcap = tf.constant(default_settings["biggestmaxcap"], dtype=tf.float32)
+        self.reservoirs = instance_settings['reservoirs']
+        self.reservoir_num = len(instance_settings['reservoirs'])
+        self.biggestmaxcap = tf.constant(instance_settings["biggestmaxcap"], dtype=tf.float32)
         self.zero = tf.constant(0, shape=[self.batch_size, self.reservoir_num], dtype=tf.float32)
-        self._high_bounds(default_settings["high_bound"])
-        self._low_bounds(default_settings["low_bound"])
-        self._rains(default_settings["rain"])
-        self._max_cap(default_settings["max_cap"])
-        self._downstream(default_settings["downstream"])
-        self._downtosea(default_settings["downtosea"])
+        self._high_bounds(instance_settings["high_bound"])
+        self._low_bounds(instance_settings["low_bound"])
+        self._rains(instance_settings["rain"])
+        self._max_cap(instance_settings["max_cap"])
+        self._downstream(instance_settings["downstream"])
+        self._downtosea(instance_settings["downtosea"])
 
     def _max_cap(self, max_cap_list):
         self.max_cap = tf.constant(max_cap_list, dtype=tf.float32)
@@ -38,6 +38,13 @@ class RESERVOIR(object):
             np_downstream[m, n] = 1
         self.downstream = tf.constant(np_downstream, dtype=tf.float32)
 
+    def _downtosea(self, downtosea):
+        np_downtosea = np.zeros((self.reservoir_num,))
+        for i in downtosea:
+            m = self.reservoirs.index(i)
+            np_downtosea[m] = 1
+        self.downtosea = tf.constant(np_downtosea, dtype=tf.float32)
+
     def MAXCAP(self):
         return self.max_cap
 
@@ -52,6 +59,9 @@ class RESERVOIR(object):
 
     def DOWNSTREAM(self):
         return self.downstream
+
+    def DOWNTOSEA(self):
+        return self.downtosea
 
     def BIGGESTMAXCAP(self):
         return self.biggestmaxcap

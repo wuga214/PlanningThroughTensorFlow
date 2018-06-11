@@ -12,3 +12,27 @@ hvac3_instance = {
     'adj': [[0, 1], [0, 2], [1, 2]],
     'rooms': [0, 1, 2],
 }
+
+reservoir3_instance = {
+    "max_cap"          : [100, 200, 400],
+    "high_bound"       : [80, 180, 380],
+    "low_bound"        : [20, 30, 40],
+    "rain"             : [5, 10, 20],
+    "downstream"       : [[1, 2], [2, 3]],
+    "downtosea"        : [3],
+    "biggestmaxcap"    : 1000,
+    "reservoirs"       : [1, 2, 3],
+    "init_state"       : [75, 50, 50]
+}
+
+reservoir4_instance = {
+    "max_cap"          : [100, 200, 400, 500],
+    "high_bound"       : [80, 180, 380, 480],
+    "low_bound"        : [20, 30, 40, 60],
+    "rain"             : [5, 10, 20, 30],
+    "downstream"       : [[1, 2], [2, 3], [3, 4]],
+    "downtosea"        : [4],
+    "biggestmaxcap"    : 1000,
+    "reservoirs"       : [1, 2, 3, 4],
+    "init_state"       : [75, 50, 50]
+}

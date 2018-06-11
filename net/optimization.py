@@ -17,9 +17,10 @@ class ActionOptimizer(object):
                  dropout,
                  pretrained,
                  normalize,
+                 action_mean,
                  learning_rate=0.005):
         self.action = tf.Variable(tf.truncated_normal(shape=[batch_size, num_step, num_act],
-                                                      mean=5.0, stddev=0.05), name="action")
+                                                      mean=action_mean, stddev=0.05), name="action")
         print(self.action)
         self.batch_size = batch_size
         self.num_step = num_step

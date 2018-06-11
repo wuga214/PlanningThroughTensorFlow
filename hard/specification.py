@@ -18,3 +18,6 @@ hvac_settings = {
 }
 
 
+reservoir_settings = {}
+
+navi_settings = {}

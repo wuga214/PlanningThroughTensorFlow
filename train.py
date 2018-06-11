@@ -20,8 +20,8 @@ def main(args):
     data = pd_data.as_matrix()
     label = pd_label.as_matrix()
     indecs = np.random.permutation(data.shape[0])
-    data = data[indecs, :args.split*2] #Test case!!!!! for HVAC ONLY
-    label = label[indecs, :args.split] #Test case!!!!! for HVAC ONLY
+    # data = data[indecs, :args.split*2] #Test case!!!!! for HVAC ONLY
+    # label = label[indecs, :args.split] #Test case!!!!! for HVAC ONLY
     m_data, n_data = data.shape
     m_label, n_label = label.shape
 
