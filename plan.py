@@ -7,7 +7,7 @@ from hard.domains import HVAC
 from hard.specification import hvac_settings
 from hard.instance import hvac6_instance
 from utils.argument import check_int_positive, check_float_positive
-from utils.io import load_pickle
+from utils.io import load_pickle, load_csv
 
 
 def main(args):
@@ -15,6 +15,8 @@ def main(args):
     hvac = HVAC(args.batch, hvac6_instance, hvac_settings)
 
     pretrained_weights = load_pickle(args.weight, 'weight')
+    normalization = load_csv(args.weight, 'normalization')
+    normalization[1][normalization[1] == 0] = 1
 
     optimizer = ActionOptimizer(num_step=args.horizon,
                                 num_act=args.action,
@@ -26,9 +28,11 @@ def main(args):
                                 num_hidden_layers=args.layer,
                                 dropout=0.1,
                                 pretrained=pretrained_weights,
+                                normalize=normalization,
+                                learning_rate=0.01
                                 )
 
-
+    optimizer.Optimize([0, 10], epoch=1000)
 
 
 
@@ -39,7 +43,7 @@ if __name__ == "__main__":
     parser.add_argument('-n', dest='neuron', type=check_int_positive, default=32)
     parser.add_argument('-l', dest='layer', type=check_int_positive, default=2)
     parser.add_argument('-d', dest='domain', default='HVAC')
-    parser.add_argument('-b', dest='batch', type=check_int_positive, default=100)
+    parser.add_argument('-b', dest='batch', type=check_int_positive, default=1)
     parser.add_argument('-hz', dest='horizon', type=check_int_positive,  default=20)
     parser.add_argument('-a', dest='action', type=check_int_positive,  default=6)
     parser.add_argument('-s', dest='state', type=check_int_positive, default=6)

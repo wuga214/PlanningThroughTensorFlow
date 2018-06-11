@@ -197,7 +197,7 @@ class HVAC(object):
                                  self.PENALTY()+self.ZERO(), self.ZERO())
         dist_penalty = tf.abs(((self.TEMP_UP() + self.TEMP_LOW()) / tf.constant(2.0, dtype=tf.float32)) - states)
         ener_penalty = actions * self.COST_AIR()
-        new_rewards = -tf.reduce_sum(tf.constant(10.0, tf.float32) * dist_penalty + ener_penalty + break_penalty,
-                                     axis=1,
-                                     keepdims=True)
+        new_rewards = tf.reduce_sum(tf.constant(10.0, tf.float32) * dist_penalty + ener_penalty + break_penalty,
+                                    axis=1,
+                                    keepdims=True)
         return new_rewards

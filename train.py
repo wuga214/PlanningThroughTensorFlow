@@ -2,7 +2,7 @@ import argparse
 import numpy as np
 from net.residual import DenselyConnectedNetwork
 from utils.argument import check_int_positive, check_float_positive
-from utils.io import read_data, dump_net_iohead, dump_norm_info, NetTopology
+from utils.io import read_data, dump_net_iohead, dump_norm_info, NetTopology, save_csv
 from viz.transition import nav_viz, res_viz, hvac_viz
 from viz.history import showhistory
 
@@ -35,7 +35,7 @@ def main(args):
     mse_weights = (1.0 / np.square(np.max(train_label, axis=0) + 1)) * 10
 
     dnn = DenselyConnectedNetwork(n_data, args.neuron, n_label, args.layer, 0.1, mse_weights)
-    mean_DNN, std_DNN = dnn.train(train_data, train_label, 2, True)
+    mean_DNN, std_DNN = dnn.train(train_data, train_label, 100, True)
     showhistory(dnn.history)
 
     # # Dump the I/O info of the network
@@ -50,6 +50,7 @@ def main(args):
 
     # Save Weights
     dnn.save(args.weight, 'weight')
+    save_csv([mean_DNN, std_DNN], args.weight, 'normalization')
 
     pred_label = dnn.test(test_data, True, mean_DNN, std_DNN)
     print "Complete testing"

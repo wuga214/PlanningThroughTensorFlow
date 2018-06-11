@@ -140,3 +140,9 @@ def save_pickle(dictionary, path, name):
 def load_pickle(path, name):
     with open('{0}/{1}.pickle'.format(path, name), 'rb') as handle:
         return pickle.load(handle)
+
+def save_csv(data, path, name):
+    np.savetxt('{0}/{1}.csv'.format(path, name), data, delimiter=',')
+
+def load_csv(path, name):
+    return np.loadtxt('{0}/{1}.csv'.format(path, name), delimiter=',')

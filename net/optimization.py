@@ -16,9 +16,10 @@ class ActionOptimizer(object):
                  num_hidden_layers,
                  dropout,
                  pretrained,
+                 normalize,
                  learning_rate=0.005):
         self.action = tf.Variable(tf.truncated_normal(shape=[batch_size, num_step, num_act],
-                                                      mean=0.0, stddev=0.05), name="action")
+                                                      mean=5.0, stddev=0.05), name="action")
         print(self.action)
         self.batch_size = batch_size
         self.num_step = num_step
@@ -30,12 +31,12 @@ class ActionOptimizer(object):
                            num_hidden_layers,
                            dropout,
                            domain_settings,
-                           pretrained)
+                           pretrained,
+                           normalize)
         self._p_create_rnn_graph(cell)
         self._p_create_loss()
         self.sess.run(tf.global_variables_initializer())
-        import ipdb;
-        ipdb.set_trace()
+        cell.load_weights(self.sess)
 
     def _p_create_rnn_graph(self, cell):
         initial_state = cell.zero_state(self.batch_size, dtype=tf.float32)
@@ -43,6 +44,7 @@ class ActionOptimizer(object):
         print('Initial_state shape:{0}'.format(initial_state))
         rnn_outputs, state = tf.nn.dynamic_rnn(cell, self.action, dtype=tf.float32, initial_state=initial_state)
         # need output intermediate states as well
+        self.rnn_outputs = rnn_outputs
         concated = tf.concat(axis=0, values=rnn_outputs)
         print('concated shape:{0}'.format(concated.get_shape()))
         something_unpacked = tf.unstack(concated, axis=2)

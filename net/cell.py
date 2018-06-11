@@ -3,6 +3,7 @@ from keras.layers import Dropout, Dense, merge
 from tensorflow.python.ops.rnn_cell import *
 from tensorflow.python.ops import rnn_cell_impl
 from tensorflow.python.ops import math_ops, array_ops, init_ops, nn_ops
+from utils.preprocess import getnorm
 
 
 class TrainedCell(rnn_cell_impl.LayerRNNCell):
@@ -16,6 +17,7 @@ class TrainedCell(rnn_cell_impl.LayerRNNCell):
                  dropout,
                  domain,
                  transition_weights,
+                 transition_normalize,
                  reuse=None, name=None):
         super(TrainedCell, self).__init__(_reuse=reuse, name=name)
         self._num_state_units = num_state_units
@@ -25,6 +27,7 @@ class TrainedCell(rnn_cell_impl.LayerRNNCell):
         self._dropout = dropout
         self._domain = domain
         self._transition_weights = transition_weights
+        self._transition_normalize = transition_normalize
         self._weights = dict()
 
     @property
@@ -57,12 +60,16 @@ class TrainedCell(rnn_cell_impl.LayerRNNCell):
         print(inputs.get_shape())
         print(state.get_shape())
 
+
         with tf.variable_scope("Transition"):
             init = array_ops.concat([inputs, state], 1)
-            x = tf.nn.relu(nn_ops.bias_add(math_ops.matmul(init,
+
+            normalized_init = (init - self._transition_normalize[0]) / self._transition_normalize[1]
+
+            x = tf.nn.relu(nn_ops.bias_add(math_ops.matmul(normalized_init,
                                                            self._weights['1']['kernel']),
                                            self._weights['1']['bias']))
-            interm_inputs = array_ops.concat([x, init], 1)
+            interm_inputs = array_ops.concat([x, normalized_init], 1)
             if self._num_hidden_layers > 1:
                 for i in range(self._num_hidden_layers - 1):
                     x = tf.nn.relu(nn_ops.bias_add(math_ops.matmul(interm_inputs,
