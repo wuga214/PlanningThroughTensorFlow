@@ -5,7 +5,7 @@ from net.cell import TrainedCell
 from net.optimization import ActionOptimizer
 from hard.domains import HVAC, NAVI, RESERVOIR
 from hard.specification import hvac_settings, reservoir_settings, navi_settings
-from hard.instance import hvac6_instance
+from hard.instance import hvac3_instance, hvac6_instance, reservoir3_instance, reservoir4_instance
 from utils.argument import check_int_positive, check_float_positive
 from utils.io import load_pickle, load_csv
 
@@ -16,15 +16,22 @@ domains = {
 }
 
 settings = {
-    "Navigation": NAVI,
+    "Navigation": navi_settings,
     "Reservoir": reservoir_settings,
-    "HVAC": navi_settings
+    "HVAC": hvac_settings
+}
+
+instances = {
+    "HVAC6": hvac6_instance,
+    "HVAC3": hvac3_instance,
+    "Reservoir3": reservoir3_instance,
+    "Reservoir4": reservoir4_instance
 }
 
 
 def main(args):
 
-    hvac = HVAC(args.batch, hvac6_instance, hvac_settings)
+    domain_inst = domains[args.domain](args.batch, instances[args.instance], settings[args.domain])
 
     pretrained_weights = load_pickle(args.weight, 'weight')
     normalization = load_csv(args.weight, 'normalization')
@@ -33,7 +40,7 @@ def main(args):
     optimizer = ActionOptimizer(num_step=args.horizon,
                                 num_act=args.action,
                                 batch_size=args.batch,
-                                domain_settings=hvac,
+                                domain_settings=domain_inst,
                                 num_state_units=args.state,
                                 num_reward_units=7,
                                 num_hidden_units=args.neuron,
@@ -56,6 +63,7 @@ if __name__ == "__main__":
     parser.add_argument('-n', dest='neuron', type=check_int_positive, default=32)
     parser.add_argument('-l', dest='layer', type=check_int_positive, default=2)
     parser.add_argument('-d', dest='domain', default='HVAC')
+    parser.add_argument('-i', dest='instance', default='HVAC6')
     parser.add_argument('-b', dest='batch', type=check_int_positive, default=10)
     parser.add_argument('-hz', dest='horizon', type=check_int_positive,  default=20)
     parser.add_argument('-a', dest='action', type=check_int_positive,  default=6)
