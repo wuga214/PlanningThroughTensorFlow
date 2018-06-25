@@ -54,6 +54,10 @@ def main(args):
                                 action_mean=5,
                                 )
 
+    if args.init is not 'None':
+        initial_state = np.tile(load_csv(".", args.init), (args.batch, 1))
+        optimizer.set_initial_state(initial_state)
+
     optimizer.Optimize([0, 10], epoch=300)
 
 
@@ -70,6 +74,7 @@ if __name__ == "__main__":
     parser.add_argument('-hz', dest='horizon', type=check_int_positive,  default=20)
     parser.add_argument('-a', dest='action', type=check_int_positive,  default=6)
     parser.add_argument('-s', dest='state', type=check_int_positive, default=6)
+    parser.add_argument('--initial', dest='init', default='None')
     parser.add_argument('--prefix', dest='head', default='D')
     args = parser.parse_args()
 
