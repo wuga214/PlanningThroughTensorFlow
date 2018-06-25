@@ -31,7 +31,9 @@ instances = {
 
 def main(args):
 
-    domain_inst = domains[args.domain](args.batch, instances[args.instance], settings[args.domain])
+    domain_inst = domains[args.domain](batch_size=args.batch,
+                                       instance_settings=instances[args.instance],
+                                       default_settings=settings[args.domain])
 
     pretrained_weights = load_pickle(args.weight, 'weight')
     normalization = load_csv(args.weight, 'normalization')
@@ -42,7 +44,7 @@ def main(args):
                                 batch_size=args.batch,
                                 domain_settings=domain_inst,
                                 num_state_units=args.state,
-                                num_reward_units=7,
+                                num_reward_units=args.state+1,
                                 num_hidden_units=args.neuron,
                                 num_hidden_layers=args.layer,
                                 dropout=0.1,

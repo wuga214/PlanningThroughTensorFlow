@@ -5,7 +5,8 @@ import numpy as np
 class RESERVOIR(object):
     def __init__(self,
                  batch_size,
-                 instance_settings):
+                 instance_settings,
+                 **unused):
         self.batch_size = batch_size
         self.reservoirs = instance_settings['reservoirs']
         self.reservoir_num = len(instance_settings['reservoirs'])
@@ -66,7 +67,7 @@ class RESERVOIR(object):
     def BIGGESTMAXCAP(self):
         return self.biggestmaxcap
 
-    def Reward(self, states):
+    def Reward(self, states, actions):
         new_rewards = tf.where(
             tf.logical_and(tf.greater_equal(states, self.LOW_BOUND()), tf.less_equal(states, self.HIGH_BOUND())),
             self.zero,
@@ -75,13 +76,14 @@ class RESERVOIR(object):
                      -100 * (states - self.HIGH_BOUND()))
             )
         new_rewards += tf.abs(((self.HIGH_BOUND() + self.LOW_BOUND()) / 2.0) - states) * (-0.1)
-        return tf.reduce_sum(new_rewards, 1, keepdims=True)
+        return tf.reduce_sum(-new_rewards, 1, keepdims=True)
 
 
 class NAVI(object):
     def __init__(self,
                  batch_size,
-                 default_settings):
+                 default_settings,
+                 **unused):
         self.__dict__.update(default_settings)
         self.batch_size = batch_size
 
@@ -103,7 +105,7 @@ class NAVI(object):
     def CENTER(self):
         return self.centre
 
-    def Reward(self, states):
+    def Reward(self, states, actions):
         new_reward = -tf.reduce_sum(tf.abs(states - self.GOAL()), 1, keepdims=True)
         return new_reward
 

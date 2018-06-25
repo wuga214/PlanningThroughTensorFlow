@@ -51,7 +51,7 @@ class ActionOptimizer(object):
         something_unpacked = tf.unstack(concated, axis=2)
         self.outputs = tf.reshape(something_unpacked[0], [-1, self.num_step, 1])
         print(' self.outputs:{0}'.format(self.outputs.get_shape()))
-        self.intern_states = tf.stack([something_unpacked[1], something_unpacked[2]], axis=2)
+        self.intern_states = tf.stack([something_unpacked[x+1] for x in range(len(something_unpacked)-1)], axis=2)
         self.last_state = state
         self.pred = tf.reduce_sum(self.outputs, 1)
         self.average_pred = tf.reduce_mean(self.pred)
