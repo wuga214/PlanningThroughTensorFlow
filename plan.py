@@ -61,7 +61,6 @@ def main(args):
     optimizer.Optimize([0, 10], epoch=300)
 
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Tensorflow Planner")
 
