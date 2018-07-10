@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 
 def getscales(X,Y):
-    distances = np.sqrt(np.power(X-4,2)+np.power(Y-4,2))
-    scalefactionor = 2.0/(1.0+np.exp(-2*distances))-0.99;
+    distances = np.sqrt(np.power(X, 2)+np.power(Y, 2))
+    scalefactionor = 2.0/(1.0+np.exp(-2*distances))-0.99
     return scalefactionor
 
 
@@ -12,14 +12,14 @@ def nav_viz(data, action, label, pred, sample_size, save=False):
     sample_index = np.random.choice(len(data), sample_size)
     fig9 = plt.figure(figsize=(12, 9), dpi=100)
     ax9 = fig9.add_subplot(111)
-    plt.xlim(0, 8)
-    plt.ylim(0, 8)
+    plt.xlim(-5, 5)
+    plt.ylim(-5, 5)
 
     delta = 0.01
-    x = y = np.arange(0, 8.01, delta)
+    x = y = np.arange(-5, 5.01, delta)
     X, Y = np.meshgrid(x, y)
     Z = getscales(X, Y)
-    cp = plt.contour(X, Y, Z, extent=(0, 8, 0, 8))
+    cp = plt.contour(X, Y, Z, extent=(-5, 5, -5, 5))
     plt.clabel(cp, inline=True,
                fontsize=10)
 

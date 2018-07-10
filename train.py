@@ -44,13 +44,13 @@ def main(args):
     # # Dump normalizing info
     # dump_norm_info(pd_data, mean_DNN, std_DNN, args.domain, args.path)
     #
-    # topo = NetTopology(dnn.getmodel().layers, mean_DNN, std_DNN, args.type)
-    #
-    # topo.net_transform('D', True, args.path, args.domain, True)
 
     # Save Weights
     dnn.save(args.weight, 'weight')
     save_csv([mean_DNN, std_DNN], args.weight, 'normalization')
+    topo = NetTopology(dnn.getmodel().layers, mean_DNN, std_DNN, args.type)
+    topo.net_transform('D', True, args.weight, 'network', True)
+    dump_net_iohead(pd_data, pd_label, n_data, n_label, args.head, args.layer+1, 'header', args.type, args.weight)
 
     pred_label = dnn.test(test_data, True, mean_DNN, std_DNN)
     print "Complete testing"

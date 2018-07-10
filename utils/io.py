@@ -26,10 +26,10 @@ def dump_norm_info(pd_data, mean_DNN, std_DNN, domain, path):
     print 'Normalization File Complete!'
 
 
-def dump_net_iohead(pd_data, pd_label, num_input, num_output, hidden_prefix, net_depth, domain, type, path):
+def dump_net_iohead(pd_data, pd_label, num_input, num_output, hidden_prefix, net_depth, name, type, path):
     #Type in {Regular,Delta}
     headers = list(pd_data.columns.values)+list(pd_label.columns.values)
-    fullpath = '{0}Headers_RDDL_{1}.txt'.format(path, domain)
+    fullpath = '{0}/{1}.txt'.format(path, name)
     filehandler = open(fullpath, 'w')
     for i in range(num_input):
         filehandler.write('N0'+str(i)+','+headers[i].replace(': ', ',')+'\n')
@@ -113,10 +113,10 @@ class NetTopology(object):
         layernodename.append('B' + str(layer_id))
         self.nodenames.append(layernodename)
 
-    def net_transform(self, hiddenstart='N', writefile=False, path=None, domain=None, overwrite=False):
+    def net_transform(self, hiddenstart='N', writefile=False, path=None, name=None, overwrite=False):
         filehandler = None
         if writefile:
-            fullpath = "{0}Network_RDDL_{1}.txt".format(path, domain)
+            fullpath = "{0}/{1}.txt".format(path, name)
             if overwrite is True:
                 filehandler = open(fullpath, 'w')
             else:
