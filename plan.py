@@ -8,7 +8,7 @@ from hard.specification import hvac_settings, reservoir_settings, navi_settings
 from hard.instance import hvac3_instance, hvac6_instance, reservoir3_instance, \
     reservoir4_instance, navi8_instance, navi10_instance
 from utils.argument import check_int_positive, check_float_positive
-from utils.io import load_pickle, load_csv
+from utils.io import load_pickle, load_csv, save_csv
 
 domains = {
     "Navigation": NAVI,
@@ -61,7 +61,8 @@ def main(args):
         initial_state = np.tile(load_csv(".", args.init), (args.batch, 1))
         optimizer.set_initial_state(initial_state)
 
-    optimizer.Optimize([-1, 1], epoch=300)
+    best_actions = optimizer.Optimize([-1, 1], epoch=300)
+    save_csv(best_actions, ".", args.resp)
 
 
 if __name__ == "__main__":
@@ -76,7 +77,8 @@ if __name__ == "__main__":
     parser.add_argument('-hz', dest='horizon', type=check_int_positive,  default=20)
     parser.add_argument('-a', dest='action', type=check_int_positive,  default=6)
     parser.add_argument('-s', dest='state', type=check_int_positive, default=6)
-    parser.add_argument('--initial', dest='init', default='None')
+    parser.add_argument('--get_state', dest='init', default='temp/state')
+    parser.add_argument('--send_action', dest='resp', default='temp/action')
     parser.add_argument('--prefix', dest='head', default='D')
     args = parser.parse_args()
 

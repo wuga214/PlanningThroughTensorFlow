@@ -2,54 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c179dee-e4df-4501-954f-945f54769448" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac3/HVAC_VAV_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac3/HVAC_VAV_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac3/Headers_RDDL_HVAC.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac3/Network_Normalization_HVAC.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac3/Network_RDDL_HVAC.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac6/HVAC_VAV_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac6/HVAC_VAV_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac6/Headers_RDDL_HVAC.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac6/Network_Normalization_HVAC.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/hvac/hvac6/Network_RDDL_HVAC.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/nav/10x10/Navigation_Large_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/nav/10x10/Navigation_Large_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/nav/8x8/Headers_RDDL_Navigation.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/nav/8x8/Navigation_Large_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/nav/8x8/Navigation_Large_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/nav/8x8/Network_Normalization_Navigation.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/res/reservoir3/Headers_RDDL_Reservoir.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/res/reservoir3/Network_Normalization_Reservoir.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/res/reservoir3/Network_RDDL_Reservoir.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/res/reservoir3/Reservoir_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/res/reservoir3/Reservoir_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/res/reservoir4/Reservoir_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/domains/res/reservoir4/Reservoir_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hard/domains.py" beforeDir="false" afterPath="$PROJECT_DIR$/hard/domains.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hard/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/hard/instance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hard/specification.py" beforeDir="false" afterPath="$PROJECT_DIR$/hard/specification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/HVAC/ROOM_3/HVAC_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/HVAC/ROOM_3/HVAC_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/HVAC/ROOM_3/HVAC_Reward.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/HVAC/ROOM_6/HVAC_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/HVAC/ROOM_6/HVAC_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/HVAC/ROOM_6/HVAC_Reward.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Navigation/10x10/Navigation_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Navigation/10x10/Navigation_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Navigation/10x10/Navigation_Reward.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Navigation/8x8/Navigation_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Navigation/8x8/Navigation_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Navigation/8x8/Navigation_Reward.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Reservoir/Reservoir_3/Reservoir_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Reservoir/Reservoir_3/Reservoir_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Reservoir/Reservoir_3/Reservoir_Reward.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Reservoir/Reservoir_4/Reservoir_Data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Reservoir/Reservoir_4/Reservoir_Label.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_domains/Reservoir/Reservoir_4/Reservoir_Reward.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/net/optimization.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/optimization.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plan.py" beforeDir="false" afterPath="$PROJECT_DIR$/plan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/state.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp/state.csv" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -109,8 +63,8 @@
       <file leaf-file-name="io.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/io.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="31" column="38" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
+            <state relative-caret-position="864">
+              <caret line="144" column="12" selection-start-line="144" selection-start-column="4" selection-end-line="144" selection-end-column="12" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -121,8 +75,8 @@
       <file leaf-file-name="optimization.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/net/optimization.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9">
-              <caret line="42" column="26" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="26" />
+            <state relative-caret-position="129">
+              <caret line="50" column="57" lean-forward="true" selection-start-line="50" selection-start-column="57" selection-end-line="50" selection-end-column="57" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -130,23 +84,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Readme.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Readme.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="285">
-                <caret line="19" column="6" lean-forward="true" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+              <first_editor relative-caret-position="480">
+                <caret line="32" column="3" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
               </first_editor>
               <second_editor />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plan.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="plan.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plan.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="909">
-              <caret line="79" column="61" selection-start-line="79" selection-start-column="61" selection-end-line="79" selection-end-column="61" />
+            <state relative-caret-position="960">
+              <caret line="82" column="30" lean-forward="true" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -221,7 +175,6 @@
         <option value="$PROJECT_DIR$/net/residual.py" />
         <option value="$PROJECT_DIR$/utils/preprocess.py" />
         <option value="$PROJECT_DIR$/net/cell.py" />
-        <option value="$PROJECT_DIR$/net/optimization.py" />
         <option value="$PROJECT_DIR$/temp/Readme.md" />
         <option value="$PROJECT_DIR$/viz/transition.py" />
         <option value="$PROJECT_DIR$/utils/io.py" />
@@ -229,8 +182,9 @@
         <option value="$PROJECT_DIR$/hard/specification.py" />
         <option value="$PROJECT_DIR$/hard/instance.py" />
         <option value="$PROJECT_DIR$/hard/domains.py" />
-        <option value="$PROJECT_DIR$/plan.py" />
         <option value="$PROJECT_DIR$/Readme.md" />
+        <option value="$PROJECT_DIR$/net/optimization.py" />
+        <option value="$PROJECT_DIR$/plan.py" />
       </list>
     </option>
   </component>
@@ -277,6 +231,11 @@
               <item name="JAIR-18" type="b2602c69:ProjectViewProjectNode" />
               <item name="JAIR-18" type="462c0819:PsiDirectoryNode" />
               <item name="rddls" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JAIR-18" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JAIR-18" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="JAIR-18" type="b2602c69:ProjectViewProjectNode" />
@@ -754,16 +713,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/io.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="31" column="38" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/train.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="369">
@@ -808,33 +757,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="480">
+            <caret line="32" column="3" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/net/optimization.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9">
-          <caret line="42" column="26" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="26" />
+        <state relative-caret-position="129">
+          <caret line="50" column="57" lean-forward="true" selection-start-line="50" selection-start-column="57" selection-end-line="50" selection-end-column="57" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plan.py">
+    <entry file="file://$PROJECT_DIR$/utils/io.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="909">
-          <caret line="79" column="61" selection-start-line="79" selection-start-column="61" selection-end-line="79" selection-end-column="61" />
+        <state relative-caret-position="864">
+          <caret line="144" column="12" selection-start-line="144" selection-start-column="4" selection-end-line="144" selection-end-column="12" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Readme.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="285">
-            <caret line="19" column="6" lean-forward="true" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/plan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="82" column="30" lean-forward="true" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

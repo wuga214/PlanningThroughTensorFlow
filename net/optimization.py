@@ -100,6 +100,7 @@ class ActionOptimizer(object):
             progress = np.array(progress)[:, minimum_costs_id[0]]
             print('progress shape:{0}'.format(progress.shape))
             np.savetxt("progress.csv", progress.reshape((progress.shape[0], -1)), delimiter=",", fmt='%2.5f')
+        return best_action
 
     def set_initial_state(self, initial_state):
         assign_op = self.initial_state.assign(initial_state)
