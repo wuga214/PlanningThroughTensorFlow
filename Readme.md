@@ -1,4 +1,4 @@
-JAIR CODE
+Planning through Backpropagation
 ===
 
 This is a refined version of Tensorflow planner on planning problem. 
@@ -13,7 +13,7 @@ The code is able to connect to the RDDL simulator by calling python through comm
 Train
 ```bash
 python train.py \
--p domains/res/reservoir4/ \
+-p data/res/reservoir4/ \
 -x Reservoir_Data.txt \
 -y Reservoir_Label.txt \
 -w weights/reservoir/reservoir4 \
@@ -32,6 +32,8 @@ python plan.py \
 --initial temp/state
 ```
 
-Note: the initial state is optional, and the default is zero state.
+Note: 
+1. the initial state is optional, and the default is zero state.
+2. Action constrain need to manually set before running planner.
 
 

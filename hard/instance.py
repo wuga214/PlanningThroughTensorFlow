@@ -36,3 +36,23 @@ reservoir4_instance = {
     "reservoirs"       : [1, 2, 3, 4],
     "init_state"       : [75, 50, 50]
 }
+
+navi10_instance = {
+    "dims": 2,
+    "min_maze_bound": -5.0,
+    "max_maze_bound": 5.0,
+    "min_act_bound": -1.0,
+    "max_act_bound": 1,
+    "goal": 3.0,
+    "centre": 0
+}
+
+navi8_instance = {
+    "dims": 2,
+    "min_maze_bound": -4.0,
+    "max_maze_bound": 4.0,
+    "min_act_bound": -1.0,
+    "max_act_bound": 1,
+    "goal": 3.0,
+    "centre": 0
+}

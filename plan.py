@@ -5,7 +5,8 @@ from net.cell import TrainedCell
 from net.optimization import ActionOptimizer
 from hard.domains import HVAC, NAVI, RESERVOIR
 from hard.specification import hvac_settings, reservoir_settings, navi_settings
-from hard.instance import hvac3_instance, hvac6_instance, reservoir3_instance, reservoir4_instance
+from hard.instance import hvac3_instance, hvac6_instance, reservoir3_instance, \
+    reservoir4_instance, navi8_instance, navi10_instance
 from utils.argument import check_int_positive, check_float_positive
 from utils.io import load_pickle, load_csv
 
@@ -25,7 +26,9 @@ instances = {
     "HVAC6": hvac6_instance,
     "HVAC3": hvac3_instance,
     "Reservoir3": reservoir3_instance,
-    "Reservoir4": reservoir4_instance
+    "Reservoir4": reservoir4_instance,
+    "Navigation10": navi10_instance,
+    "Navigation8": navi8_instance,
 }
 
 
@@ -58,7 +61,7 @@ def main(args):
         initial_state = np.tile(load_csv(".", args.init), (args.batch, 1))
         optimizer.set_initial_state(initial_state)
 
-    optimizer.Optimize([0, 10], epoch=300)
+    optimizer.Optimize([-1, 1], epoch=300)
 
 
 if __name__ == "__main__":

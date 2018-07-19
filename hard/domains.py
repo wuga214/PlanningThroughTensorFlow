@@ -82,9 +82,9 @@ class RESERVOIR(object):
 class NAVI(object):
     def __init__(self,
                  batch_size,
-                 default_settings,
+                 instance_settings,
                  **unused):
-        self.__dict__.update(default_settings)
+        self.__dict__.update(instance_settings)
         self.batch_size = batch_size
 
     def MINMAZEBOUND(self):
