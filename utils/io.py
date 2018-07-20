@@ -143,8 +143,14 @@ def load_pickle(path, name):
 
 
 def save_csv(data, path, name):
-    np.savetxt('{0}/{1}.csv'.format(path, name), data, delimiter=',')
+    if path == "":
+        np.savetxt('{1}.csv'.format(path, name), data, delimiter=',')
+    else:
+        np.savetxt('{0}/{1}.csv'.format(path, name), data, delimiter=',')
 
 
 def load_csv(path, name):
-    return np.loadtxt('{0}/{1}.csv'.format(path, name), delimiter=',')
+    if path == "":
+        return np.loadtxt('{1}.csv'.format(path, name), delimiter=',')
+    else:
+        return np.loadtxt('{0}/{1}.csv'.format(path, name), delimiter=',')
