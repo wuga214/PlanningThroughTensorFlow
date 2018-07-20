@@ -5,7 +5,8 @@
       <change beforePath="$PROJECT_DIR$/plan.py" beforeDir="false" afterPath="$PROJECT_DIR$/plan.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/temp/action.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp/action.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/temp/state.csv" beforeDir="false" afterPath="$PROJECT_DIR$/temp/state.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/io.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/io.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weights/nav/8x8/network.txt" beforeDir="false" afterPath="$PROJECT_DIR$/weights/nav/8x8/network.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weights/nav/8x8/weight.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/weights/nav/8x8/weight.pickle" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -101,8 +102,8 @@
       <file leaf-file-name="plan.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plan.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="60" column="42" lean-forward="true" selection-start-line="60" selection-start-column="42" selection-end-line="60" selection-end-column="42" />
+            <state relative-caret-position="69">
+              <caret line="25" column="28" lean-forward="true" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -185,8 +186,8 @@
         <option value="$PROJECT_DIR$/hard/domains.py" />
         <option value="$PROJECT_DIR$/Readme.md" />
         <option value="$PROJECT_DIR$/net/optimization.py" />
-        <option value="$PROJECT_DIR$/plan.py" />
         <option value="$PROJECT_DIR$/utils/io.py" />
+        <option value="$PROJECT_DIR$/plan.py" />
       </list>
     </option>
   </component>
@@ -790,8 +791,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plan.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="60" column="42" lean-forward="true" selection-start-line="60" selection-start-column="42" selection-end-line="60" selection-end-column="42" />
+        <state relative-caret-position="69">
+          <caret line="25" column="28" lean-forward="true" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

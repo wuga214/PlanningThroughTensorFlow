@@ -61,7 +61,7 @@ def main(args):
         initial_state = np.tile(load_csv("", args.init), (args.batch, 1))
         optimizer.set_initial_state(initial_state)
 
-    best_actions = optimizer.Optimize([0, 10], epoch=300)
+    best_actions = optimizer.Optimize([-1, 1], epoch=300)
     save_csv(best_actions, "", args.resp)
 
 
