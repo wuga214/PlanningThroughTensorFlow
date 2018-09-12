@@ -72,10 +72,17 @@ class ActionOptimizer(object):
             progress = []
         for epoch in range(epoch):
             training = self.sess.run([self.optimizer])
-            self.sess.run(
-                tf.assign(self.action, tf.clip_by_value(self.action,
-                                                        clip_bounds[0],
-                                                        clip_bounds[1])))
+            if clip_bounds == None:
+                action_upperbound = self.sess.run(self.intern_states)
+                self.sess.run(
+                    tf.assign(self.action, tf.clip_by_value(self.action,
+                                                            0,
+                                                            action_upperbound)))
+            else:
+                self.sess.run(
+                    tf.assign(self.action, tf.clip_by_value(self.action,
+                                                            clip_bounds[0],
+                                                            clip_bounds[1])))
             if True:
                 new_loss = self.sess.run([self.average_pred])
                 print('Loss in epoch {0}: {1}'.format(epoch, new_loss))

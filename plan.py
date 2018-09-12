@@ -61,7 +61,14 @@ def main(args):
         initial_state = np.tile(load_csv("", args.init), (args.batch, 1))
         optimizer.set_initial_state(initial_state)
 
-    best_actions = optimizer.Optimize([-1, 1], epoch=300)
+    # action constraint need to be pre-defined
+    if args.domain == 'HVAC':
+        action_constraints = [0, 10]
+    elif args.domain == 'Navigation':
+        action_constraints = [-1, 1]
+    else:
+        action_constraints = None
+    best_actions = optimizer.Optimize(action_constraints, epoch=300)
     save_csv(best_actions, "", args.resp)
 
 

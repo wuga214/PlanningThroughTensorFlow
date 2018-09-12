@@ -39,3 +39,47 @@ python train.py -p data/Navigation/8x8/ -x Navigation_Data.txt -y Navigation_Lab
 ```bash
 python train.py -p data/Navigation/10x10/ -x Navigation_Data.txt -y Navigation_Label.txt -w weights/nav/10x10 -s 2 -d Navigation -l 2
 ```
+
+## Tensorflow Planning
+Planning on trained domain should connected to the real domain similator for evaluation purpose,
+Since the learned transition function is not the one in real world. Directly using this planner 
+could end up meeting different state in the real world.
+
+Note: 
+1. The initial state should be provided by the real world state.
+2. The last action given by this planner is not counted in reward, so may be arbitrary. 
+
+If you only want to check if the planner works in general. Please run following commands with psudo initial state.
+
+
+
+### Navigation 8x8
+```bash
+python plan.py -w weights/nav/8x8 -d Navigation -i Navigation8 -s 2 -a 2 --get_state temp/test/nav/8x8/state
+```
+
+### Navigation 10x10w
+```bash
+python plan.py -w weights/nav/10x10 -d Navigation -i Navigation10 -s 2 -a 2 --get_state temp/test/nav/10x10/state
+```
+
+
+### HVAC 3
+```bash
+python plan.py -w weights/hvac/hvac3 -d HVAC -i HVAC3 -s 3 -a 3 --get_state temp/test/hvac/hvac3/state -l 1
+```
+
+### HVAC 6
+```bash
+python plan.py -w weights/hvac/hvac6 -d HVAC -i HVAC6 -s 6 -a 6 --get_state temp/test/hvac/hvac6/state -l 1
+```
+
+### Reservoir 3
+```bash
+python plan.py -w weights/reservoir/reservoir3 -d Reservoir -i Reservoir3 -s 3 -a 3 --get_state temp/test/reservoir/reservoir3/state -l 1
+```
+
+### Reservoir 4
+```bash
+python plan.py -w weights/reservoir/reservoir4 -d Reservoir -i Reservoir4 -s 4 -a 4 --get_state temp/test/reservoir/reservoir4/state -l 1
+```

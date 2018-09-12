@@ -43,7 +43,7 @@ navi10_instance = {
     "max_maze_bound": 5.0,
     "min_act_bound": -1.0,
     "max_act_bound": 1,
-    "goal": 3.0,
+    "goal": 4.0,
     "centre": 0
 }
 
