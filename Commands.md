@@ -48,6 +48,7 @@ could end up meeting different state in the real world.
 Note: 
 1. The initial state should be provided by the real world state.
 2. The last action given by this planner is not counted in reward, so may be arbitrary. 
+3. Change code for the action constraints, not given as parameters currently.
 
 If you only want to check if the planner works in general. Please run following commands with psudo initial state.
 
@@ -55,23 +56,23 @@ If you only want to check if the planner works in general. Please run following 
 
 ### Navigation 8x8
 ```bash
-python plan.py -w weights/nav/8x8 -d Navigation -i Navigation8 -s 2 -a 2 --get_state temp/test/nav/8x8/state
+python plan.py -w weights/nav/8x8 -d Navigation -i Navigation8 -s 2 -a 2 --get_state temp/test/nav/8x8/state --constraint -1 1
 ```
 
 ### Navigation 10x10w
 ```bash
-python plan.py -w weights/nav/10x10 -d Navigation -i Navigation10 -s 2 -a 2 --get_state temp/test/nav/10x10/state
+python plan.py -w weights/nav/10x10 -d Navigation -i Navigation10 -s 2 -a 2 --get_state temp/test/nav/10x10/state --constraint -1 1
 ```
 
 
 ### HVAC 3
 ```bash
-python plan.py -w weights/hvac/hvac3 -d HVAC -i HVAC3 -s 3 -a 3 --get_state temp/test/hvac/hvac3/state -l 1
+python plan.py -w weights/hvac/hvac3 -d HVAC -i HVAC3 -s 3 -a 3 --get_state temp/test/hvac/hvac3/state -l 1 --constraint 0 10
 ```
 
 ### HVAC 6
 ```bash
-python plan.py -w weights/hvac/hvac6 -d HVAC -i HVAC6 -s 6 -a 6 --get_state temp/test/hvac/hvac6/state -l 1
+python plan.py -w weights/hvac/hvac6 -d HVAC -i HVAC6 -s 6 -a 6 --get_state temp/test/hvac/hvac6/state -l 1 --constraint 0 10
 ```
 
 ### Reservoir 3

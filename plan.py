@@ -31,6 +31,13 @@ instances = {
     "Navigation8": navi8_instance,
 }
 
+def constaint(s):
+    try:
+        num = int(s)
+        return num
+    except:
+        raise argparse.ArgumentTypeError("Sparse matrix shape must be integer")
+
 
 def main(args):
 
@@ -62,12 +69,19 @@ def main(args):
         optimizer.set_initial_state(initial_state)
 
     # action constraint need to be pre-defined
-    if args.domain == 'HVAC':
-        action_constraints = [0, 10]
-    elif args.domain == 'Navigation':
-        action_constraints = [-1, 1]
+    # if args.domain == 'HVAC':
+    #     action_constraints = [0, 10]
+    # elif args.domain == 'Navigation':
+    #     action_constraints = [-1, 1]
+    # else:
+    #     action_constraints = None
+
+    if args.constraint:
+        action_constraints = [args.constraint[0], args.constraint[1]]
+        print "Static action constraint:{0}".format(action_constraints)
     else:
         action_constraints = None
+
     best_actions = optimizer.Optimize(action_constraints, epoch=300)
     save_csv(best_actions, "", args.resp)
 
@@ -87,6 +101,7 @@ if __name__ == "__main__":
     parser.add_argument('--get_state', dest='init', default='temp/state')
     parser.add_argument('--send_action', dest='resp', default='temp/action')
     parser.add_argument('--prefix', dest='head', default='D')
+    parser.add_argument('--constraint', dest="constraint", type=constaint, nargs=2)
     args = parser.parse_args()
 
     main(args)
