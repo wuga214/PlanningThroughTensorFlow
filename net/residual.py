@@ -1,4 +1,4 @@
-from keras.layers import Input, merge
+from keras.layers import Input, concatenate
 from keras.models import Model
 from keras import backend as K
 from keras.layers import Dense, Dropout
@@ -20,12 +20,12 @@ class DenselyConnectedNetwork(object):
         with tf.variable_scope("transition"):
             x = Dense(hidden, activation='relu')(inputs)
             x = Dropout(drop_out)(x)
-            interm_inputs = merge([x, inputs], mode='concat')
+            interm_inputs = concatenate([x, inputs])
             if num_layers > 1:
                 for i in range(num_layers - 1):
                     x = Dense(hidden, activation='relu')(interm_inputs)
                     x = Dropout(drop_out)(x)
-                    interm_inputs = merge([x, interm_inputs], mode='concat')
+                    interm_inputs = concatenate([x, interm_inputs])
             predictions = Dense(output, activation='linear')(interm_inputs)
             self.DeepNet = Model(input=inputs, output=predictions)
         self.DeepNet.compile(optimizer='rmsprop', loss=self.boosted_mean_squared_error)
