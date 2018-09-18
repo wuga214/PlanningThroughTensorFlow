@@ -82,7 +82,7 @@ def main(args):
     else:
         action_constraints = None
 
-    best_actions = optimizer.Optimize(action_constraints, epoch=300)
+    best_actions = optimizer.Optimize(action_constraints, epoch=args.epoch)
     save_csv(best_actions, "", args.resp)
 
 
@@ -98,6 +98,7 @@ if __name__ == "__main__":
     parser.add_argument('-hz', dest='horizon', type=check_int_positive,  default=20)
     parser.add_argument('-a', dest='action', type=check_int_positive,  default=6)
     parser.add_argument('-s', dest='state', type=check_int_positive, default=6)
+    parser.add_argument('-e', dest='epoch', type=check_int_positive, default=300)
     parser.add_argument('--get_state', dest='init', default='temp/state')
     parser.add_argument('--send_action', dest='resp', default='temp/action')
     parser.add_argument('--prefix', dest='head', default='D')
