@@ -112,10 +112,10 @@ Modify `Python_Repo` in the TensorflowPolicy.java before running.
 
 ### Reservoir 3
 ```bash
-./run rddl.sim.Simulator -/media/wuga/Storage/JAIR-18/rddls/Reservoir/Reservoir_3/Reservoir.rddl -P rddl.policy.domain.reservoir.TensorflowPolicy -I is1 -V rddl.viz.GenericScreenDisplay
+./run rddl.sim.Simulator -R /media/wuga/Storage/JAIR-18/rddls/Reservoir/Reservoir_3/Reservoir.rddl -P rddl.policy.domain.reservoir.TensorflowPolicy -I is1 -V rddl.viz.GenericScreenDisplay
 ```
 
 ### Reservoir 4
 ```bash
-./run rddl.sim.Simulator -/media/wuga/Storage/JAIR-18/rddls/Reservoir/Reservoir_4/Reservoir.rddl -P rddl.policy.domain.reservoir.TensorflowPolicy -I is1 -V rddl.viz.GenericScreenDisplay
+./run rddl.sim.Simulator -R /media/wuga/Storage/JAIR-18/rddls/Reservoir/Reservoir_4/Reservoir.rddl -P rddl.policy.domain.reservoir.TensorflowPolicy -I is1 -V rddl.viz.GenericScreenDisplay
 ```
