@@ -32,6 +32,8 @@ python plan.py \
 --initial temp/state
 ```
 
+More concrete examples could be found in `Commands.md` file.
+
 Note: 
 1. the initial state is optional, and the default is zero state.
 2. Action constrain need to manually set before running planner.
