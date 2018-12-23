@@ -82,6 +82,6 @@ instance is1{
 		rlevel(t1) = 75.0;
 	};
 	max-nondef-actions = 3;
-	horizon = 10;
+	horizon = 20;
 	discount = 1.0;
 }

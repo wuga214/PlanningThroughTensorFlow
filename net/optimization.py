@@ -38,6 +38,7 @@ class ActionOptimizer(object):
         self._p_create_loss()
         self.sess.run(tf.global_variables_initializer())
         cell.load_weights(self.sess)
+        self.sess.graph.finalize()
 
     def _p_create_rnn_graph(self, cell):
         self.initial_state = tf.Variable(cell.zero_state(self.batch_size, dtype=tf.float32))
@@ -57,6 +58,16 @@ class ActionOptimizer(object):
         self.average_pred = tf.reduce_mean(self.pred)
         print("self.pred:{0}".format(self.pred))
 
+        self.lower_action_bound = tf.placeholder(tf.float32)
+        self.upper_action_bount = tf.placeholder(tf.float32)
+
+        self.reset_action = tf.assign(self.action, tf.clip_by_value(self.action,
+                                                                    self.lower_action_bound,
+                                                                    self.upper_action_bount))
+
+        self.given_inital_state = tf.placeholder(tf.float32, shape=self.initial_state.shape)
+        self.reset_initial_state = self.initial_state.assign(self.given_inital_state)
+
     def _p_create_loss(self):
 
         objective = tf.reduce_mean(tf.square(self.pred))
@@ -74,41 +85,36 @@ class ActionOptimizer(object):
             training = self.sess.run([self.optimizer])
             if clip_bounds == None:
                 action_upperbound = self.sess.run(self.intern_states)
-                self.sess.run(
-                    tf.assign(self.action, tf.clip_by_value(self.action,
-                                                            0,
-                                                            action_upperbound)))
+                self.sess.run(self.reset_action, feed_dict={self.lower_action_bound: 0,
+                                                            self.upper_action_bount: action_upperbound})
             else:
-                self.sess.run(
-                    tf.assign(self.action, tf.clip_by_value(self.action,
-                                                            clip_bounds[0],
-                                                            clip_bounds[1])))
+                self.sess.run(self.reset_action, feed_dict={self.lower_action_bound: clip_bounds[0],
+                                                            self.upper_action_bount: clip_bounds[1]})
             if True:
                 new_loss = self.sess.run([self.average_pred])
                 print('Loss in epoch {0}: {1}'.format(epoch, new_loss))
             if show_progress and epoch % 10 == 0:
                 progress.append(self.sess.run(self.intern_states))
-        minimum_costs_id = self.sess.run(tf.argmax(self.pred, 0))
+        minimum_costs_id = np.argmax(self.sess.run(self.pred), 0)
         print(minimum_costs_id)
         best_action = np.round(self.sess.run(self.action)[minimum_costs_id[0]], 4)
-        print('Optimal Action Squence:{0}'.format(best_action))
-        pred_list = self.sess.run(self.pred)
-        pred_list = np.sort(pred_list.flatten())[::-1]
-        pred_list = pred_list[:5]
-        pred_mean = np.mean(pred_list)
-        pred_std = np.std(pred_list)
-        print('Best Cost: {0}'.format(pred_list[0]))
-        print('Sorted Costs:{0}'.format(pred_list))
-        print('MEAN: {0}, STD:{1}'.format(pred_mean, pred_std))
-        print('The last state:{0}'.format(self.sess.run(self.last_state)[minimum_costs_id[0]]))
-        print('Rewards each time step:{0}'.format(self.sess.run(self.outputs)[minimum_costs_id[0]]))
-        print('Intermediate states:{0}'.format(self.sess.run(self.intern_states)[minimum_costs_id[0]]))
-        if show_progress:
-            progress = np.array(progress)[:, minimum_costs_id[0]]
-            print('progress shape:{0}'.format(progress.shape))
-            np.savetxt("progress.csv", progress.reshape((progress.shape[0], -1)), delimiter=",", fmt='%2.5f')
+        # print('Optimal Action Squence:{0}'.format(best_action))
+        # pred_list = self.sess.run(self.pred)
+        # pred_list = np.sort(pred_list.flatten())[::-1]
+        # pred_list = pred_list[:5]
+        # pred_mean = np.mean(pred_list)
+        # pred_std = np.std(pred_list)
+        # print('Best Cost: {0}'.format(pred_list[0]))
+        # print('Sorted Costs:{0}'.format(pred_list))
+        # print('MEAN: {0}, STD:{1}'.format(pred_mean, pred_std))
+        # print('The last state:{0}'.format(self.sess.run(self.last_state)[minimum_costs_id[0]]))
+        # print('Rewards each time step:{0}'.format(self.sess.run(self.outputs)[minimum_costs_id[0]]))
+        # print('Intermediate states:{0}'.format(self.sess.run(self.intern_states)[minimum_costs_id[0]]))
+        # if show_progress:
+        #     progress = np.array(progress)[:, minimum_costs_id[0]]
+        #     print('progress shape:{0}'.format(progress.shape))
+        #     np.savetxt("progress.csv", progress.reshape((progress.shape[0], -1)), delimiter=",", fmt='%2.5f')
         return best_action
 
     def set_initial_state(self, initial_state):
-        assign_op = self.initial_state.assign(initial_state)
-        self.sess.run(assign_op)
+        self.sess.run(self.reset_initial_state, feed_dict={self.given_inital_state: initial_state})

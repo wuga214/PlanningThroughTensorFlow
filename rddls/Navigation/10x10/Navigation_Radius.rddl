@@ -77,7 +77,7 @@ instance is1{
 		location(y) = -5.0;
 	};
 	max-nondef-actions = 2;
-	horizon = 10;
+	horizon = 8;
 	discount = 1.0;
 }
 
