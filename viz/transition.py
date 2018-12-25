@@ -60,7 +60,7 @@ def res_viz(data, action, label, pred, sample_size, save=False):
 
 def hvac_viz(data, action, label, pred, sample_size, save=False):
     _, dim=data.shape
-    fig, axes = plt.subplots(nrows=dim, ncols=1, figsize=(8, 6))
+    fig, axes = plt.subplots(nrows=dim, ncols=1, figsize=(8, dim*2))
     y_formatter = ScalarFormatter(useOffset=False)
     for i in range(dim):
         for j in range(sample_size):

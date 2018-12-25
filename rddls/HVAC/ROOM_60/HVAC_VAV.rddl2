@@ -1,0 +1,373 @@
+//Room Temperature Control Simulation
+//Here we define space as object, which includes rooms, hallways, and outside of the building.
+//Out objective is to save the cost of using HVAC system, while controlling the room temperature within a certain desired range.
+//We use HVAC system to control the temperature of each room, by turning the HVAC (heating) air on/off
+//Reward function is to calculate the cost to providing cooling/warming control.
+//There will also be thermal transfer both between each space, which will impact the room temperature
+//The amount of heat transferred depends on the temperature difference and the Thermal Resistance of the wall between the spaces
+//We assigns a penalty that will be applied if the room temperature goes beyond the desired temperature range
+
+domain hvac_vav_fix{
+	  types {
+		  space : object;
+  	};
+
+  	pvariables {
+  		//Constants
+  		ADJ(space, space)    : { non-fluent, bool, default = false };	//Indicate if two rooms are adjacent to each other
+  		ADJ_OUTSIDE(space)		: { non-fluent, bool, default = false };	//Indicate if the room is adjacent to the outside
+  		ADJ_HALL(space)			: { non-fluent, bool, default = false };    //Indicate if the room is adjacent to the hallway
+  		R_OUTSIDE(space)		: { non-fluent, real, default = 2};		//Thermal Resistance of the wall between the room and the outside; used to calculate the heat transfered out
+    	R_HALL(space)			: { non-fluent, real, default = 1.3};		//Thermal Resistance of the wall between the room and the hallway; used to calculate the heat transfered out	
+  		R_WALL(space, space) : { non-fluent, real, default = 1.1 };	//Thermal Resistance of the wall between two rooms
+  		IS_ROOM(space)		 : { non-fluent, bool, default = false };	//Indicate if the space is a room; otherwise it could be a hallway or outside
+  		CAP(space) 			 : { non-fluent, real, default = 80 }; //Heat Capacity of the room
+  		CAP_AIR 			 : { non-fluent, real, default = 1.006 }; //Heat Capacity of the air; unit of kj/(kg*C)
+  		COST_AIR 			 : { non-fluent, real, default = 1 };	//Cost of heated air from HVAC; unit of $/kg
+  		TIME_DELTA 			 : { non-fluent, real, default = 1 }; //Delta time used to find change in temperature；unit of min
+  		TEMP_AIR 			 : { non-fluent, real, default = 40 }; //Set a fixed temperature for HVAC air
+  		TEMP_UP(space)		 : { non-fluent, real, default = 23.5 }; //Set an upper bound for the desired temperature range
+  		TEMP_LOW(space)		 : { non-fluent, real, default = 20.0 }; //Set a lower bound for the desired temperature range
+  		TEMP_OUTSIDE(space)		: { non-fluent, real, default = 6.0 }; //Set the temperature of the outside; used to calculate the temperature difference, and then the amount of heat tranfer
+  		TEMP_HALL(space)		: { non-fluent, real, default = 10.0 }; //Set the temperature of the hallway; used to calculate the temperature difference, and then the amount of heat tranfer
+  		PENALTY 			 : { non-fluent, real, default = 1000 }; //A penalty applied when the room temperature goes beyond the desired range
+		AIR_MAX(space)		 : { non-fluent, real, default = 10.0 }; //The Maximum amount of air entering the room per min, if the HVAC is Variable Air Volume
+		
+		//TEMP_VAR			 : { non-fluent, real, default = 7 };	//Variance of outside temperature
+		//ROUNDS_PER_CYCLE   : { non-fluent, int, default =  };
+			
+  		//State Variable
+  		TEMP(space) 	     : { state-fluent, real, default = 10.0 };	//Temperature of the space
+  		//AIR_VOLUME(space)  	 : { state-fluent, real, default = 2.0};//State Variable to indicate if the Air is on; used in visualization
+  		//round 				 : { state-fluent, int, default = 0 };// The current round 
+		
+  		//Action
+  		AIR(space)		     : { action-fluent, real, default = 0.0 }; //The amount (kg/min) of air entering from HVAC System - Variable Air Volume System
+  	};
+
+  	cpfs {
+  		//State
+  		TEMP'(?s) = TEMP(?s) + TIME_DELTA/CAP(?s) * 
+ 			 (AIR(?s) * CAP_AIR * (TEMP_AIR - TEMP(?s))
+  			+ [sum_{?p : space} ((ADJ(?s, ?p) | ADJ(?p, ?s)) * (TEMP(?p) - TEMP(?s)) / R_WALL(?s, ?p))]
+  			+ADJ_OUTSIDE(?s)*(TEMP_OUTSIDE(?s) - TEMP(?s))/ R_OUTSIDE(?s)
+ 			+ADJ_HALL(?s)*(TEMP_HALL(?s)-TEMP(?s))/R_HALL(?s));    
+		//round' = round + 1;	// Update the round
+		//AIR_VOLUME'(?s) = AIR(?s) * IS_ROOM(?s); //Record the Action in the room
+		};
+		
+
+	reward = - sum_{?s : space} (
+			     [AIR(?s) * COST_AIR]
+			    + [10.0*abs[((TEMP_UP(?s) + TEMP_LOW(?s))/2.0) - TEMP(?s)]]
+				);
+
+
+    action-preconditions{
+			forall_{?s : space} [ AIR(?s) >= 0 ];
+			forall_{?s : space} [ AIR(?s) <= AIR_MAX(?s)];
+		};
+}
+
+
+non-fluents nf_hvac_vav_fix{
+	domain = hvac_vav_fix;
+
+	objects{
+		space : { r101, r102, r103, r104, r105, r106, r107, r108, r109, r110, r111, r112,
+			  r201, r202, r203, r204, r205, r206, r207, r208, r209, r210, r211, r212,
+			  r301, r302, r303, r304, r305, r306, r307, r308, r309, r310, r311, r312,
+			  r401, r402, r403, r404, r405, r406, r407, r408, r409, r410, r411, r412,
+			  r501, r502, r503, r504, r505, r506, r507, r508, r509, r510, r511, r512
+			 }; //Three rooms, one hallway, and the outside world
+	};
+
+	non-fluents {
+		//Define rooms
+		//Level1
+		IS_ROOM(r101) = true;
+		IS_ROOM(r102) = true;
+		IS_ROOM(r103) = true;
+		IS_ROOM(r104) = true;
+		IS_ROOM(r105) = true;
+		IS_ROOM(r106) = true;
+		IS_ROOM(r107) = true;
+		IS_ROOM(r108) = true;
+		IS_ROOM(r109) = true;
+		IS_ROOM(r110) = true;
+		IS_ROOM(r111) = true;
+		IS_ROOM(r112) = true;
+		//Level2
+		IS_ROOM(r201) = true;
+		IS_ROOM(r202) = true;
+		IS_ROOM(r203) = true;
+		IS_ROOM(r204) = true;
+		IS_ROOM(r205) = true;
+		IS_ROOM(r206) = true;
+		IS_ROOM(r207) = true;
+		IS_ROOM(r208) = true;
+		IS_ROOM(r209) = true;
+		IS_ROOM(r210) = true;
+		IS_ROOM(r211) = true;
+		IS_ROOM(r212) = true;
+		//Level3
+		IS_ROOM(r301) = true;
+		IS_ROOM(r302) = true;
+		IS_ROOM(r303) = true;
+		IS_ROOM(r304) = true;
+		IS_ROOM(r305) = true;
+		IS_ROOM(r306) = true;
+		IS_ROOM(r307) = true;
+		IS_ROOM(r308) = true;
+		IS_ROOM(r309) = true;
+		IS_ROOM(r310) = true;
+		IS_ROOM(r311) = true;
+		IS_ROOM(r312) = true;
+		//Level4
+		IS_ROOM(r401) = true;
+		IS_ROOM(r402) = true;
+		IS_ROOM(r403) = true;
+		IS_ROOM(r404) = true;
+		IS_ROOM(r405) = true;
+		IS_ROOM(r406) = true;
+		IS_ROOM(r407) = true;
+		IS_ROOM(r408) = true;
+		IS_ROOM(r409) = true;
+		IS_ROOM(r410) = true;
+		IS_ROOM(r411) = true;
+		IS_ROOM(r412) = true;
+		//Level5
+		IS_ROOM(r501) = true;
+		IS_ROOM(r502) = true;
+		IS_ROOM(r503) = true;
+		IS_ROOM(r504) = true;
+		IS_ROOM(r505) = true;
+		IS_ROOM(r506) = true;
+		IS_ROOM(r507) = true;
+		IS_ROOM(r508) = true;
+		IS_ROOM(r509) = true;
+		IS_ROOM(r510) = true;
+		IS_ROOM(r511) = true;
+		IS_ROOM(r512) = true;
+
+
+		//Define the adjacency
+		//Level1
+		ADJ(r101, r102) = true;
+		ADJ(r102, r103) = true;
+		ADJ(r103, r104) = true;
+		ADJ(r104, r105) = true;
+		ADJ(r106, r107) = true;
+		ADJ(r107, r108) = true;
+		ADJ(r107, r109) = true;
+		ADJ(r108, r109) = true;
+		ADJ(r110, r111) = true;
+		ADJ(r111, r112) = true;
+		//Level2
+		ADJ(r201, r202) = true;
+		ADJ(r202, r203) = true;
+		ADJ(r203, r204) = true;
+		ADJ(r204, r205) = true;
+		ADJ(r206, r207) = true;
+		ADJ(r207, r208) = true;
+		ADJ(r207, r209) = true;
+		ADJ(r208, r209) = true;
+		ADJ(r210, r211) = true;
+		ADJ(r211, r212) = true;
+		//Level3
+		ADJ(r301, r302) = true;
+		ADJ(r302, r303) = true;
+		ADJ(r303, r304) = true;
+		ADJ(r304, r305) = true;
+		ADJ(r306, r307) = true;
+		ADJ(r307, r308) = true;
+		ADJ(r307, r309) = true;
+		ADJ(r308, r309) = true;
+		ADJ(r310, r311) = true;
+		ADJ(r311, r312) = true;
+		//Level4
+		ADJ(r401, r402) = true;
+		ADJ(r402, r403) = true;
+		ADJ(r403, r404) = true;
+		ADJ(r404, r405) = true;
+		ADJ(r406, r407) = true;
+		ADJ(r407, r408) = true;
+		ADJ(r407, r409) = true;
+		ADJ(r408, r409) = true;
+		ADJ(r410, r411) = true;
+		ADJ(r411, r412) = true;
+		//Level5
+		ADJ(r501, r502) = true;
+		ADJ(r502, r503) = true;
+		ADJ(r503, r504) = true;
+		ADJ(r504, r505) = true;
+		ADJ(r506, r507) = true;
+		ADJ(r507, r508) = true;
+		ADJ(r507, r509) = true;
+		ADJ(r508, r509) = true;
+		ADJ(r510, r511) = true;
+		ADJ(r511, r512) = true;
+		//InterLevel 1-2
+		ADJ(r101, r201) = true;
+		ADJ(r102, r202) = true;
+		ADJ(r103, r203) = true;
+		ADJ(r104, r204) = true;
+		ADJ(r105, r205) = true;
+		ADJ(r106, r206) = true;
+		ADJ(r107, r207) = true;
+		ADJ(r108, r208) = true;
+		ADJ(r109, r209) = true;
+		ADJ(r110, r210) = true;
+		ADJ(r111, r211) = true;
+		ADJ(r112, r212) = true;
+		//InterLevel 2-3
+		ADJ(r201, r301) = true;
+		ADJ(r202, r302) = true;
+		ADJ(r203, r303) = true;
+		ADJ(r204, r304) = true;
+		ADJ(r205, r305) = true;
+		ADJ(r206, r306) = true;
+		ADJ(r207, r307) = true;
+		ADJ(r208, r308) = true;
+		ADJ(r209, r309) = true;
+		ADJ(r210, r310) = true;
+		ADJ(r211, r311) = true;
+		ADJ(r212, r312) = true;
+		//InterLevel 3-4
+		ADJ(r301, r401) = true;
+		ADJ(r302, r402) = true;
+		ADJ(r303, r403) = true;
+		ADJ(r304, r404) = true;
+		ADJ(r305, r405) = true;
+		ADJ(r306, r406) = true;
+		ADJ(r307, r407) = true;
+		ADJ(r308, r408) = true;
+		ADJ(r309, r409) = true;
+		ADJ(r310, r410) = true;
+		ADJ(r311, r411) = true;
+		ADJ(r312, r412) = true;
+		//InterLevel 4-5
+		ADJ(r401, r501) = true;
+		ADJ(r402, r502) = true;
+		ADJ(r403, r503) = true;
+		ADJ(r404, r504) = true;
+		ADJ(r405, r505) = true;
+		ADJ(r406, r506) = true;
+		ADJ(r407, r507) = true;
+		ADJ(r408, r508) = true;
+		ADJ(r409, r509) = true;
+		ADJ(r410, r510) = true;
+		ADJ(r411, r511) = true;
+		ADJ(r412, r512) = true;
+
+		
+		//Outside
+		//Level1
+		ADJ_OUTSIDE(r101) = true;
+		ADJ_OUTSIDE(r102) = true;
+		ADJ_OUTSIDE(r103) = true;
+		ADJ_OUTSIDE(r104) = true;
+		ADJ_OUTSIDE(r105) = true;
+		ADJ_OUTSIDE(r106) = true;
+		ADJ_OUTSIDE(r108) = true;
+		ADJ_OUTSIDE(r110) = true;
+		ADJ_OUTSIDE(r111) = true;
+		ADJ_OUTSIDE(r112) = true;
+		//Level2
+		ADJ_OUTSIDE(r201) = true;
+		ADJ_OUTSIDE(r202) = true;
+		ADJ_OUTSIDE(r203) = true;
+		ADJ_OUTSIDE(r204) = true;
+		ADJ_OUTSIDE(r205) = true;
+		ADJ_OUTSIDE(r206) = true;
+		ADJ_OUTSIDE(r208) = true;
+		ADJ_OUTSIDE(r210) = true;
+		ADJ_OUTSIDE(r211) = true;
+		ADJ_OUTSIDE(r212) = true;
+		//Level3
+		ADJ_OUTSIDE(r301) = true;
+		ADJ_OUTSIDE(r302) = true;
+		ADJ_OUTSIDE(r303) = true;
+		ADJ_OUTSIDE(r304) = true;
+		ADJ_OUTSIDE(r305) = true;
+		ADJ_OUTSIDE(r306) = true;
+		ADJ_OUTSIDE(r308) = true;
+		ADJ_OUTSIDE(r310) = true;
+		ADJ_OUTSIDE(r311) = true;
+		ADJ_OUTSIDE(r312) = true;
+		//Level4
+		ADJ_OUTSIDE(r401) = true;
+		ADJ_OUTSIDE(r402) = true;
+		ADJ_OUTSIDE(r403) = true;
+		ADJ_OUTSIDE(r404) = true;
+		ADJ_OUTSIDE(r405) = true;
+		ADJ_OUTSIDE(r406) = true;
+		ADJ_OUTSIDE(r408) = true;
+		ADJ_OUTSIDE(r410) = true;
+		ADJ_OUTSIDE(r411) = true;
+		ADJ_OUTSIDE(r412) = true;
+		//Level5
+		ADJ_OUTSIDE(r501) = true;
+		ADJ_OUTSIDE(r502) = true;
+		ADJ_OUTSIDE(r503) = true;
+		ADJ_OUTSIDE(r504) = true;
+		ADJ_OUTSIDE(r505) = true;
+		ADJ_OUTSIDE(r506) = true;
+		ADJ_OUTSIDE(r508) = true;
+		ADJ_OUTSIDE(r510) = true;
+		ADJ_OUTSIDE(r511) = true;
+		ADJ_OUTSIDE(r512) = true;
+
+		//Hallway
+		//Level1
+		ADJ_HALL(r101) = true;
+		ADJ_HALL(r102) = true;
+		ADJ_HALL(r103) = true;
+		ADJ_HALL(r106) = true;
+		ADJ_HALL(r107) = true;
+		ADJ_HALL(r109) = true;
+		ADJ_HALL(r110) = true;
+		//Level2
+		ADJ_HALL(r201) = true;
+		ADJ_HALL(r202) = true;
+		ADJ_HALL(r203) = true;
+		ADJ_HALL(r206) = true;
+		ADJ_HALL(r207) = true;
+		ADJ_HALL(r209) = true;
+		ADJ_HALL(r210) = true;
+		//Level3
+		ADJ_HALL(r301) = true;
+		ADJ_HALL(r302) = true;
+		ADJ_HALL(r303) = true;
+		ADJ_HALL(r306) = true;
+		ADJ_HALL(r307) = true;
+		ADJ_HALL(r309) = true;
+		ADJ_HALL(r310) = true;
+		//Level4
+		ADJ_HALL(r401) = true;
+		ADJ_HALL(r402) = true;
+		ADJ_HALL(r403) = true;
+		ADJ_HALL(r406) = true;
+		ADJ_HALL(r407) = true;
+		ADJ_HALL(r409) = true;
+		ADJ_HALL(r410) = true;
+		//Level5
+		ADJ_HALL(r501) = true;
+		ADJ_HALL(r502) = true;
+		ADJ_HALL(r503) = true;
+		ADJ_HALL(r506) = true;
+		ADJ_HALL(r507) = true;
+		ADJ_HALL(r509) = true;
+		ADJ_HALL(r510) = true;
+	};
+}
+
+instance inst_hvac_vav_fix{
+	domain = hvac_vav_fix;
+	non-fluents = nf_hvac_vav_fix;
+	//init-state{
+	//};
+	max-nondef-actions = 60;
+	horizon = 12;
+	discount = 1.0;
+}
