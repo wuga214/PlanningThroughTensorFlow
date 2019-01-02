@@ -21,7 +21,7 @@ class ActionOptimizer(object):
                  learning_rate=0.005):
         self.action = tf.Variable(tf.truncated_normal(shape=[batch_size, num_step, num_act],
                                                       mean=action_mean, stddev=0.05), name="action")
-        print(self.action)
+        # print(self.action)
         self.batch_size = batch_size
         self.num_step = num_step
         self.learning_rate = learning_rate
@@ -42,21 +42,21 @@ class ActionOptimizer(object):
 
     def _p_create_rnn_graph(self, cell):
         self.initial_state = tf.Variable(cell.zero_state(self.batch_size, dtype=tf.float32))
-        print('action batch size:{0}'.format(array_ops.shape(self.action)[0]))
-        print('Initial_state shape:{0}'.format(self.initial_state))
+        # print('action batch size:{0}'.format(array_ops.shape(self.action)[0]))
+        # print('Initial_state shape:{0}'.format(self.initial_state))
         rnn_outputs, state = tf.nn.dynamic_rnn(cell, self.action, dtype=tf.float32, initial_state=self.initial_state)
         # need output intermediate states as well
         self.rnn_outputs = rnn_outputs
         concated = tf.concat(axis=0, values=rnn_outputs)
-        print('concated shape:{0}'.format(concated.get_shape()))
+        # print('concated shape:{0}'.format(concated.get_shape()))
         something_unpacked = tf.unstack(concated, axis=2)
         self.outputs = tf.reshape(something_unpacked[0], [-1, self.num_step, 1])
-        print('self.outputs:{0}'.format(self.outputs.get_shape()))
+        # print('self.outputs:{0}'.format(self.outputs.get_shape()))
         self.intern_states = tf.stack([something_unpacked[x+1] for x in range(len(something_unpacked)-1)], axis=2)
         self.last_state = state
         self.pred = tf.reduce_sum(self.outputs, 1)
         self.average_pred = tf.reduce_mean(self.pred)
-        print("self.pred:{0}".format(self.pred))
+        # print("self.pred:{0}".format(self.pred))
 
         self.lower_action_bound = tf.placeholder(tf.float32)
         self.upper_action_bount = tf.placeholder(tf.float32)
@@ -72,13 +72,13 @@ class ActionOptimizer(object):
 
         objective = tf.reduce_mean(tf.square(self.pred))
         self.loss = objective
-        print(self.loss.get_shape())
+        # print(self.loss.get_shape())
         self.optimizer = tf.train.RMSPropOptimizer(self.learning_rate).minimize(self.loss, var_list=[self.action])
 
     def Optimize(self, clip_bounds, epoch=100, show_progress=False):
 
         new_loss = self.sess.run([self.loss])
-        print('Loss in epoch {0}: {1}'.format("Initial", new_loss))
+        # print('Loss in epoch {0}: {1}'.format("Initial", new_loss))
         if show_progress:
             progress = []
         for epoch in range(epoch):
@@ -92,11 +92,11 @@ class ActionOptimizer(object):
                                                             self.upper_action_bount: clip_bounds[1]})
             if True:
                 new_loss = self.sess.run([self.average_pred])
-                print('Loss in epoch {0}: {1}'.format(epoch, new_loss))
+                #print('Loss in epoch {0}: {1}'.format(epoch, new_loss))
             if show_progress and epoch % 10 == 0:
                 progress.append(self.sess.run(self.intern_states))
         minimum_costs_id = np.argmax(self.sess.run(self.pred), 0)
-        print(minimum_costs_id)
+        # print(minimum_costs_id)
         best_action = np.round(self.sess.run(self.action)[minimum_costs_id[0]], 4)
         # print('Optimal Action Squence:{0}'.format(best_action))
         # pred_list = self.sess.run(self.pred)

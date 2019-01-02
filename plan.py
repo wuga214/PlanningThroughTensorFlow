@@ -5,7 +5,7 @@ from net.cell import TrainedCell
 from net.optimization import ActionOptimizer
 from hard.domains import HVAC, NAVI, RESERVOIR
 from hard.specification import hvac_settings, reservoir_settings, navi_settings
-from hard.instance import hvac3_instance, hvac6_instance, reservoir3_instance, \
+from hard.instance import hvac3_instance, hvac6_instance, hvac60_instance, reservoir3_instance, \
     reservoir4_instance, navi8_instance, navi10_instance
 from utils.argument import check_int_positive, check_float_positive
 from utils.io import load_pickle, load_csv, save_csv
@@ -25,6 +25,7 @@ settings = {
 instances = {
     "HVAC6": hvac6_instance,
     "HVAC3": hvac3_instance,
+    "HVAC60": hvac60_instance,
     "Reservoir3": reservoir3_instance,
     "Reservoir4": reservoir4_instance,
     "Navigation10": navi10_instance,

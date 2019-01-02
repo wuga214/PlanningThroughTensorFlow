@@ -13,7 +13,7 @@ hvac_settings = {
     "temp_low": tf.constant(20.0, dtype=tf.float32),
     "temp_outside": tf.constant(6.0, dtype=tf.float32),
     "temp_hall": tf.constant(10.0, dtype=tf.float32),
-    "penalty": tf.constant(20000.0, dtype=tf.float32),
+    "penalty": tf.constant(100.0, dtype=tf.float32),
     "air_max": tf.constant(10.0, dtype=tf.float32)
 }
 

@@ -30,7 +30,7 @@ domain hvac_vav_fix{
   		TEMP_LOW(space)		 : { non-fluent, real, default = 20.0 }; //Set a lower bound for the desired temperature range
   		TEMP_OUTSIDE(space)		: { non-fluent, real, default = 6.0 }; //Set the temperature of the outside; used to calculate the temperature difference, and then the amount of heat tranfer
   		TEMP_HALL(space)		: { non-fluent, real, default = 10.0 }; //Set the temperature of the hallway; used to calculate the temperature difference, and then the amount of heat tranfer
-  		PENALTY 			 : { non-fluent, real, default = 1000 }; //A penalty applied when the room temperature goes beyond the desired range
+  		PENALTY 			 : { non-fluent, real, default = 100 }; //A penalty applied when the room temperature goes beyond the desired range
 		AIR_MAX(space)		 : { non-fluent, real, default = 10.0 }; //The Maximum amount of air entering the room per min, if the HVAC is Variable Air Volume
 		
 		//TEMP_VAR			 : { non-fluent, real, default = 7 };	//Variance of outside temperature
@@ -38,7 +38,6 @@ domain hvac_vav_fix{
 			
   		//State Variable
   		TEMP(space) 	     : { state-fluent, real, default = 10.0 };	//Temperature of the space
-  		//AIR_VOLUME(space)  	 : { state-fluent, real, default = 2.0};//State Variable to indicate if the Air is on; used in visualization
   		//round 				 : { state-fluent, int, default = 0 };// The current round 
 		
   		//Action
@@ -48,19 +47,16 @@ domain hvac_vav_fix{
   	cpfs {
   		//State
   		TEMP'(?s) = TEMP(?s) + TIME_DELTA/CAP(?s) * 
- 			 (AIR(?s) * CAP_AIR * (TEMP_AIR - TEMP(?s))
+ 			 (AIR(?s) * CAP_AIR * (TEMP_AIR - TEMP(?s)) 
   			+ [sum_{?p : space} ((ADJ(?s, ?p) | ADJ(?p, ?s)) * (TEMP(?p) - TEMP(?s)) / R_WALL(?s, ?p))]
-  			+ADJ_OUTSIDE(?s)*(TEMP_OUTSIDE(?s) - TEMP(?s))/ R_OUTSIDE(?s)
- 			+ADJ_HALL(?s)*(TEMP_HALL(?s)-TEMP(?s))/R_HALL(?s));    
+  			+ ADJ_OUTSIDE(?s)*(TEMP_OUTSIDE(?s) - TEMP(?s))/ R_OUTSIDE(?s) 
+ 			+ ADJ_HALL(?s)*(TEMP_HALL(?s)-TEMP(?s))/R_HALL(?s));    
 		//round' = round + 1;	// Update the round
-		//AIR_VOLUME'(?s) = AIR(?s) * IS_ROOM(?s); //Record the Action in the room
 		};
 		
 
-	reward = - sum_{?s : space} (
-			     [AIR(?s) * COST_AIR]
-			    + [10.0*abs[((TEMP_UP(?s) + TEMP_LOW(?s))/2.0) - TEMP(?s)]]
-				);
+	reward = - (sum_{?s : space} IS_ROOM(?s)*(AIR(?s) * COST_AIR
+  			    + ((TEMP(?s) < TEMP_LOW(?s)) | (TEMP(?s) > TEMP_UP(?s))) * PENALTY) + 10.0*abs[((TEMP_UP(?s) + TEMP_LOW(?s))/2.0) - TEMP(?s)]);
 
 
     action-preconditions{
@@ -368,6 +364,6 @@ instance inst_hvac_vav_fix{
 	//init-state{
 	//};
 	max-nondef-actions = 60;
-	horizon = 12;
+	horizon = 48;
 	discount = 1.0;
 }
