@@ -6,7 +6,7 @@ from net.optimization import ActionOptimizer
 from hard.domains import HVAC, NAVI, RESERVOIR
 from hard.specification import hvac_settings, reservoir_settings, navi_settings
 from hard.instance import hvac3_instance, hvac6_instance, hvac60_instance, reservoir3_instance, \
-    reservoir4_instance, navi8_instance, navi10_instance
+    reservoir4_instance, navi8_instance, navi10_instance, reservoir10_instance, navi10_instance_small
 from utils.argument import check_int_positive, check_float_positive
 from utils.io import load_pickle, load_csv, save_csv
 
@@ -28,16 +28,18 @@ instances = {
     "HVAC60": hvac60_instance,
     "Reservoir3": reservoir3_instance,
     "Reservoir4": reservoir4_instance,
+    "Reservoir10": reservoir10_instance,
     "Navigation10": navi10_instance,
+    "Navigation10s": navi10_instance_small, # Small step instance
     "Navigation8": navi8_instance,
 }
 
 def constaint(s):
     try:
-        num = int(s)
+        num = float(s)
         return num
     except:
-        raise argparse.ArgumentTypeError("Sparse matrix shape must be integer")
+        raise argparse.ArgumentTypeError("constraint error")
 
 
 def main(args):

@@ -61,12 +61,34 @@ reservoir4_instance = {
     "init_state"       : [75, 50, 50]
 }
 
+reservoir10_instance = {
+    "max_cap": [300, 200, 400, 500, 750, 300, 300, 300, 400, 800],
+    "high_bound": [280, 180, 380, 480, 630, 250, 180, 240, 340, 650],
+    "low_bound": [20, 30, 40, 60, 20, 30, 10, 40, 40, 20],
+    "rain": [16, 10, 20, 30, 20, 10, 35, 15,25,20],
+    "downstream": [[1, 2], [2, 3], [3, 4], [4, 5], [6, 7], [7, 8], [8, 5], [5, 6], [6, 10], [5, 9], [9, 10]],
+    "downtosea": [10],
+    "biggestmaxcap": 1000,
+    "reservoirs": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "init_state": [175, 150, 150, 150, 150, 150, 150, 150, 150, 150]
+}
+
 navi10_instance = {
     "dims": 2,
     "min_maze_bound": -5.0,
     "max_maze_bound": 5.0,
     "min_act_bound": -1.0,
     "max_act_bound": 1,
+    "goal": 3.0,
+    "centre": 0
+}
+
+navi10_instance_small = {
+    "dims": 2,
+    "min_maze_bound": -5.0,
+    "max_maze_bound": 5.0,
+    "min_act_bound": -0.5,
+    "max_act_bound": 0.5,
     "goal": 3.0,
     "centre": 0
 }
