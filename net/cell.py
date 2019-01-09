@@ -82,6 +82,6 @@ class TrainedCell(rnn_cell_impl.LayerRNNCell):
                                          self._weights[str(self._num_hidden_layers+1)]['bias'])
 
         with tf.variable_scope("Reward"):
-            reward = self._domain.Reward(state, inputs)
+            reward = self._domain.Reward(next_state, inputs)
 
         return tf.concat(axis=1, values=[reward, next_state]), next_state
